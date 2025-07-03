@@ -8,21 +8,11 @@ from agno.utils.log import logger
 
 
 def get_reasoning_agent(
-    reasoning_model: Model,
-    monitoring: bool = False,
-    telemetry: bool = False,
-    debug_mode: bool = False,
-    debug_level: Literal[1, 2] = 1,
+    reasoning_model: Model, monitoring: bool = False, telemetry: bool = False, debug_mode: bool = False
 ) -> "Agent":  # type: ignore  # noqa: F821
     from agno.agent import Agent
 
-    return Agent(
-        model=reasoning_model,
-        monitoring=monitoring,
-        telemetry=telemetry,
-        debug_mode=debug_mode,
-        debug_level=debug_level,
-    )
+    return Agent(model=reasoning_model, monitoring=monitoring, telemetry=telemetry, debug_mode=debug_mode)
 
 
 def get_next_action(reasoning_step: ReasoningStep) -> NextAction:

@@ -1,37 +1,43 @@
-import random
-
+from typing import Iterator  # noqa
 from agno.agent import Agent
 from agno.models.openai import OpenAIChat
 from agno.team.team import Team
-from agno.tools import tool
+from agno.tools.yfinance import YFinanceTools
 
-agent1 = Agent(
+
+stock_searcher = Agent(
     name="Stock Searcher",
     model=OpenAIChat("gpt-4o"),
+    role="Searches the web for information on a stock.",
+    tools=[
+        YFinanceTools(
+            stock_price=True,
+            analyst_recommendations=True,
+        )
+    ],
 )
 
-agent2 = Agent(
+company_info_agent = Agent(
     name="Company Info Searcher",
     model=OpenAIChat("gpt-4o"),
+    role="Searches the web for information on a stock.",
+    tools=[
+        YFinanceTools(
+            stock_price=False,
+            company_info=True,
+            company_news=True,
+        )
+    ],
 )
-
-
-@tool
-def get_stock_price(stock_symbol: str) -> str:
-    """Get the current stock price of a stock."""
-    return f"The current stock price of {stock_symbol} is {random.randint(100, 1000)}."
 
 
 team = Team(
     name="Stock Research Team",
     mode="route",
     model=OpenAIChat("gpt-4o"),
-    members=[agent1, agent2],
+    members=[stock_searcher, company_info_agent],
     markdown=True,
     show_members_responses=True,
 )
-
-
-team.add_tool(get_stock_price)
 
 team.print_response("What is the current stock price of NVDA?", stream=True)

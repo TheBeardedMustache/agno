@@ -317,8 +317,7 @@ class Agent:
     # --- Debug & Monitoring ---
     # Enable debug logs
     debug_mode: bool = False
-    # Debug level: 1 = basic, 2 = detailed
-    debug_level: Literal[1, 2] = 1
+
 
     # monitoring=True logs Agent information to agno.com for monitoring
     monitoring: bool = False
