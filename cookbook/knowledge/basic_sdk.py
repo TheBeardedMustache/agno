@@ -2,6 +2,7 @@ from agno.agent import Agent
 from agno.document.document_v2 import DocumentContent, DocumentV2
 from agno.document.reader.arxiv_reader import ArxivReader
 from agno.document.reader.json_reader import JSONReader
+from agno.document.reader.wikipedia_reader import WikipediaReader
 from agno.document.reader.website_reader import WebsiteReader
 from agno.knowledge.cloud_storage.cloud_storage import S3Config
 from agno.knowledge.knowledge import Knowledge
@@ -117,7 +118,7 @@ knowledge.add_document(
         name="Wikipedia Content",
         metadata={"user_tag": "Manual Document String Content"},
         topics=["Real Madrid", "Barcelona"],
-        # reader=WikipediaReader(),
+        reader=WikipediaReader(),
     )
 )
 
@@ -140,7 +141,7 @@ knowledge.add_document(
     DocumentV2(
         name="Web Search Content",
         metadata={"user_tag": "Manual Document String Content"},
-        topics=["Real Madrid", "Barcelona"],
+        topics=["Real Madrid FC", "Barcelona"],
         # reader=WebSearchReader(),
     )
 )

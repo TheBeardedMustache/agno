@@ -1,6 +1,6 @@
 import logging
 from os import getenv
-from typing import Any, Optional
+from typing import Any, Literal, Optional
 
 from rich.logging import RichHandler
 from rich.text import Text
@@ -138,6 +138,11 @@ def use_agent_logger():
 def log_debug(msg, center: bool = False, symbol: str = "*", *args, **kwargs):
     global logger
     global debug_on
+<<<<<<< Updated upstream
+=======
+    global debug_level
+
+>>>>>>> Stashed changes
     if debug_on:
         logger.debug(msg, center, symbol, *args, **kwargs)
 

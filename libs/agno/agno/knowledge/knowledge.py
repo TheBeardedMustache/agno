@@ -239,16 +239,17 @@ class Knowledge:
         elif isinstance(document.content, DocumentContent):
             if document.content.type:
                 log_info(f"Document content type: {document.content.type}")
+                if isinstance(document.content.content, bytes):
+                    content_io = io.BytesIO(document.content.content)
+                else:
+                    content_io = document.content.content
 
-                if "pdf" in document.content.type:
-                    read_documents = self._process_pdf_content(document)
-                elif "csv" in document.content.type:
-                    read_documents = self._process_csv_content(document)
-                elif any(ext in document.content.type for ext in ["docx", "doc", "word"]):
-                    read_documents = self._process_docx_content(document)
+                reader = self._select_reader(document.content.type)
+                if reader:
+                    read_documents = reader.read(content_io, name=document.name)
                 else:
                     log_warning(f"Unsupported content type: {document.content.type}")
-                    return
+                    return []
 
                 # Process each document in the list
                 for read_document in read_documents:
@@ -271,7 +272,12 @@ class Knowledge:
 
         self._update_document_status(document.id, "Completed")
 
-    def _load_from_topics(self): ...
+    def _load_from_topics(self, id: str, document: DocumentV2):
+        log_info(f"Adding document from topics: {document.topics}")
+        documents = document.reader.read(document.topics)
+        for document in documents:
+            document.source_id = id
+            print(f"Document: {document}")
 
     def _load_from_cloud_storage(self): ...
 
@@ -584,44 +590,6 @@ class Knowledge:
     def csv_url_reader(self) -> CSVUrlReader:
         """CSV URL reader - lazy loaded and cached."""
         return CSVUrlReader()
-
-    # --- Content Processing ---
-
-    def _process_pdf_content(self, document: DocumentV2) -> List[Document]:
-        """Process PDF content"""
-
-        # Convert bytes to BytesIO for the reader
-        if isinstance(document.content.content, bytes):
-            content_io = io.BytesIO(document.content.content)
-        else:
-            content_io = document.content.content
-
-        read_documents = self.pdf_reader.read(content_io, name=document.name)
-        return read_documents
-
-    def _process_csv_content(self, document: DocumentV2) -> List[Document]:
-        """Process CSV content"""
-        # Convert bytes to BytesIO for the reader
-        if isinstance(document.content.content, bytes):
-            content_io = io.BytesIO(document.content.content)
-        else:
-            content_io = document.content.content
-
-        log_info(f"Processing CSV content: {document.name}")
-        read_documents = self.csv_reader.read(content_io, name=document.name)
-        return read_documents
-
-    def _process_docx_content(self, document: DocumentV2) -> List[Document]:
-        """Process DOCX content"""
-        if isinstance(document.content.content, bytes):
-            content_io = io.BytesIO(document.content.content)
-        else:
-            content_io = document.content.content
-
-        log_info(f"Processing DOCX content: {document.name}")
-        read_documents = self.docx_reader.read(content_io, name=document.name)
-        return read_documents
-
 
 # -- Unused for now. Will revisit when we do async and optimizations ---
 
