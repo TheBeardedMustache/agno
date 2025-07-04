@@ -3,11 +3,11 @@ import math
 from typing import List, Optional
 from uuid import uuid4
 
-from fastapi import APIRouter, BackgroundTasks, File, Form, Query, UploadFile
+from fastapi import APIRouter, BackgroundTasks, File, Form, HTTPException, Query, UploadFile
 
 from agno.document.document_v2 import DocumentContent, DocumentV2
 from agno.knowledge.knowledge import Knowledge
-from agno.os.managers.knowledge.schemas import ConfigResponseSchema, DocumentResponseSchema, ReaderSchema
+from agno.os.managers.knowledge.schemas import ConfigResponseSchema, DocumentResponseSchema, EditDocumentSchema, ReaderSchema
 from agno.os.managers.utils import PaginatedResponse, PaginationInfo, SortOrder
 from agno.utils.log import log_info
 
@@ -75,6 +75,26 @@ def attach_routes(router: APIRouter, knowledge: Knowledge) -> APIRouter:
         # Return immediately with the ID
         return {"document_id": document_id, "status": "processing"}
 
+    @router.patch("/documents/{document_id}", status_code=200)
+    async def edit_document(document_id: str, edit_document_schema: EditDocumentSchema):
+        document = DocumentV2(
+            id=document_id,
+            name=edit_document_schema.name,
+            description=edit_document_schema.description,
+            metadata=edit_document_schema.metadata,
+        )
+        if edit_document_schema.reader_id:
+            if edit_document_schema.reader_id in knowledge.readers:
+                document.reader = knowledge.readers[edit_document_schema.reader_id]
+            else:
+                raise HTTPException(status_code=400, detail=f"Invalid reader_id: {edit_document_schema.reader_id}")
+        knowledge.patch_document(document)
+        return {"status": "success"}
+    
+    
+    
+    
+    
     @router.get("/documents", response_model=PaginatedResponse[DocumentResponseSchema], status_code=200)
     def get_documents(
         limit: Optional[int] = Query(default=20, description="Number of documents to return"),

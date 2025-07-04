@@ -313,6 +313,20 @@ class Knowledge:
         # if document.config:
         #     self._load_from_cloud_storage(id, document)
 
+    def patch_document(self, document: DocumentV2):
+        if self.documents_db is not None:
+            document_row = self.documents_db.get_knowledge_document(document.id)
+            if document_row is None:
+                log_warning(f"Document not found: {document.id}")
+                return
+            document_row.name = document.name
+            document_row.description = document.description
+            document_row.metadata = document.metadata
+            document_row.updated_at = int(time.time())
+            self.documents_db.upsert_knowledge_document(knowledge_row=document_row)
+        else:
+            log_warning("No documents db provided")
+
     def add_document(
         self,
         document: Optional[DocumentV2] = None,
@@ -377,6 +391,8 @@ class Knowledge:
         if self.documents_db is None:
             raise ValueError("No documents db provided")
         document_row = self.documents_db.get_knowledge_document(document_id)
+        if document_row is None:
+            return None
         document = DocumentV2(
             id=document_row.id,
             name=document_row.name,
