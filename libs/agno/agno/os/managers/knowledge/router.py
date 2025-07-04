@@ -144,7 +144,7 @@ def attach_routes(router: APIRouter, knowledge: Knowledge) -> APIRouter:
             id=document_id,
         )
 
-    @router.delete("/documents/", status_code=200)
+    @router.delete("/documents", status_code=200)
     def delete_all_documents():
         log_info(f"Deleting all documents")
         knowledge.remove_all_documents()
@@ -173,7 +173,8 @@ def process_document(knowledge: Knowledge, document_id: str, document: DocumentV
         # Set the document ID
         document.id = document_id
         # Process the document
-        document.reader = knowledge.readers[reader_id]
+        if reader_id:
+            document.reader = knowledge.readers[reader_id]
         knowledge.add_document(document)
         print(f"Document {document_id} processed successfully")
     except Exception as e:
