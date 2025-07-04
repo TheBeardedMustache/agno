@@ -147,6 +147,7 @@ def attach_routes(router: APIRouter, knowledge: Knowledge) -> APIRouter:
     @router.delete("/documents/", status_code=200)
     def delete_all_documents():
         log_info(f"Deleting all documents")
+        knowledge.remove_all_documents()
         return "success"
 
     @router.get("/documents/{document_id}/status", status_code=200)

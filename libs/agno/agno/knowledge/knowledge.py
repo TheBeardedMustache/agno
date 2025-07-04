@@ -434,9 +434,11 @@ class Knowledge:
             self.vector_store.delete_by_source_id(document_id)
 
     def remove_all_documents(self):
-        if self.document_store is None:
-            raise ValueError("No document store provided")
-        return self.document_store.delete_all_documents()
+        if self.document_store is not None:
+            self.document_store.delete_all_documents()
+        documents, _ = self.get_documents()
+        for document in documents:
+            self.remove_document(document.id)
 
     def _add_to_documents_db(self, document: DocumentV2):
         if self.documents_db:
