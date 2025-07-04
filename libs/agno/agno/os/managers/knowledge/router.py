@@ -1,6 +1,6 @@
 import json
 import math
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 from uuid import uuid4
 
 from fastapi import APIRouter, BackgroundTasks, File, Form, HTTPException, Query, UploadFile
@@ -19,7 +19,7 @@ def attach_routes(router: APIRouter, knowledge: Knowledge) -> APIRouter:
         name: Optional[str] = Form(None),
         description: Optional[str] = Form(None),
         url: Optional[str] = Form(None),
-        metadata: Optional[str] = Form(None, description="JSON string of metadata dict or list of dicts"),
+        metadata: Optional[Dict[str, Any]] = Form(None, description="JSON metadata"),
         file: Optional[UploadFile] = File(None),
         reader_id: Optional[str] = Form(None),
     ):
@@ -44,7 +44,7 @@ def attach_routes(router: APIRouter, knowledge: Knowledge) -> APIRouter:
         log_info(f"Parsed URLs: {parsed_urls}")
         # # Parse metadata with proper error handling
         parsed_metadata = None
-        if metadata and metadata.strip():
+        if metadata:
             try:
                 parsed_metadata = json.loads(metadata)
             except json.JSONDecodeError:
