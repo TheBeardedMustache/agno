@@ -3,7 +3,7 @@ import math
 from typing import Any, Dict, List, Optional
 from uuid import uuid4
 
-from fastapi import APIRouter, BackgroundTasks, File, Form, HTTPException, Query, UploadFile
+from fastapi import APIRouter, BackgroundTasks, File, Form, HTTPException, Path, Query, UploadFile
 
 from agno.document.document_v2 import DocumentContent, DocumentV2
 from agno.knowledge.knowledge import Knowledge
@@ -85,7 +85,7 @@ def attach_routes(router: APIRouter, knowledge: Knowledge) -> APIRouter:
 
     @router.patch("/documents/{document_id}", status_code=200)
     async def edit_document(
-        document_id: str = Form(..., description="Document ID"),
+        document_id: str = Path(..., description="Document ID"),
         name: Optional[str] = Form(None),
         description: Optional[str] = Form(None),
         metadata: Optional[str] = Form(None, description="JSON metadata"),

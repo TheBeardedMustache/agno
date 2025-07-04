@@ -319,9 +319,13 @@ class Knowledge:
             if document_row is None:
                 log_warning(f"Document not found: {document.id}")
                 return
-            document_row.name = document.name
-            document_row.description = document.description
-            document_row.metadata = document.metadata
+            # Only update fields that are not None
+            if document.name is not None:
+                document_row.name = document.name
+            if document.description is not None:
+                document_row.description = document.description
+            if document.metadata is not None:
+                document_row.metadata = document.metadata
             document_row.updated_at = int(time.time())
             self.documents_db.upsert_knowledge_document(knowledge_row=document_row)
         else:
