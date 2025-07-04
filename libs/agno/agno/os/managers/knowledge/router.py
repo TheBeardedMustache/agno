@@ -7,7 +7,7 @@ from fastapi import APIRouter, BackgroundTasks, File, Form, HTTPException, Query
 
 from agno.document.document_v2 import DocumentContent, DocumentV2
 from agno.knowledge.knowledge import Knowledge
-from agno.os.managers.knowledge.schemas import ConfigResponseSchema, DocumentResponseSchema, EditDocumentSchema, ReaderSchema
+from agno.os.managers.knowledge.schemas import ConfigResponseSchema, DocumentResponseSchema, ReaderSchema
 from agno.os.managers.utils import PaginatedResponse, PaginationInfo, SortOrder
 from agno.utils.log import log_info
 
@@ -19,7 +19,7 @@ def attach_routes(router: APIRouter, knowledge: Knowledge) -> APIRouter:
         name: Optional[str] = Form(None),
         description: Optional[str] = Form(None),
         url: Optional[str] = Form(None),
-        metadata: Optional[Dict[str, Any]] = Form(None, description="JSON metadata"),
+        metadata: Optional[str] = Form(None, description="JSON metadata"),
         file: Optional[UploadFile] = File(None),
         reader_id: Optional[str] = Form(None),
     ):
@@ -28,6 +28,14 @@ def attach_routes(router: APIRouter, knowledge: Knowledge) -> APIRouter:
         document_id = str(uuid4())
         log_info(f"Document ID: {document_id}")
         # # Read the content once and store it
+
+        parsed_metadata = None
+        if metadata:
+            try:
+                parsed_metadata = json.loads(metadata)
+            except json.JSONDecodeError:
+                # If it's not valid JSON, treat as a simple key-value pair
+                parsed_metadata = {"value": metadata} if metadata != "string" else None
         if file:
             content_bytes = await file.read()
         else:
@@ -76,18 +84,31 @@ def attach_routes(router: APIRouter, knowledge: Knowledge) -> APIRouter:
         return {"document_id": document_id, "status": "processing"}
 
     @router.patch("/documents/{document_id}", status_code=200)
-    async def edit_document(document_id: str, edit_document_schema: EditDocumentSchema):
+    async def edit_document(
+        document_id: str = Form(..., description="Document ID"),
+        name: Optional[str] = Form(None),
+        description: Optional[str] = Form(None),
+        metadata: Optional[str] = Form(None, description="JSON metadata"),
+        reader_id: Optional[str] = Form(None),
+    ):
+        parsed_metadata = None
+        if metadata:
+            try:
+                parsed_metadata = json.loads(metadata)
+            except json.JSONDecodeError:
+                # If it's not valid JSON, treat as a simple key-value pair
+                parsed_metadata = {"value": metadata} if metadata != "string" else None
         document = DocumentV2(
             id=document_id,
-            name=edit_document_schema.name,
-            description=edit_document_schema.description,
-            metadata=edit_document_schema.metadata,
+            name=name,
+            description=description,
+            metadata=parsed_metadata,
         )
-        if edit_document_schema.reader_id:
-            if edit_document_schema.reader_id in knowledge.readers:
-                document.reader = knowledge.readers[edit_document_schema.reader_id]
+        if reader_id:
+            if reader_id in knowledge.readers:
+                document.reader = knowledge.readers[reader_id]
             else:
-                raise HTTPException(status_code=400, detail=f"Invalid reader_id: {edit_document_schema.reader_id}")
+                raise HTTPException(status_code=400, detail=f"Invalid reader_id: {reader_id}")
         knowledge.patch_document(document)
         return {"status": "success"}
     

@@ -1,14 +1,7 @@
 from typing import List, Optional
 
-from fastapi import UploadFile
 from pydantic import BaseModel
 
-
-class EditDocumentSchema(BaseModel):
-    name: Optional[str] = None
-    description: Optional[str] = None
-    metadata: Optional[dict] = None
-    reader_id: Optional[str] = None
 
 class DocumentResponseSchema(BaseModel):
     id: str
