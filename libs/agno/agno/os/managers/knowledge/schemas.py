@@ -23,13 +23,6 @@ class ReaderSchema(BaseModel):
     name: Optional[str] = None
     description: Optional[str] = None
 
-
-class CrawlerSchema(BaseModel):
-    id: str
-    name: Optional[str] = None
-    description: Optional[str] = None
-
-
-class ReaderResponseSchema(BaseModel):
+class ConfigResponseSchema(BaseModel):
     readers: Optional[List[ReaderSchema]] = None
-    crawlers: Optional[List[CrawlerSchema]] = None
+    filters: Optional[List[str]] = None

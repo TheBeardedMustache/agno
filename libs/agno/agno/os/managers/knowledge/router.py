@@ -7,7 +7,7 @@ from fastapi import APIRouter, BackgroundTasks, File, Form, Query, UploadFile
 
 from agno.document.document_v2 import DocumentContent, DocumentV2
 from agno.knowledge.knowledge import Knowledge
-from agno.os.managers.knowledge.schemas import DocumentResponseSchema, ReaderResponseSchema, ReaderSchema
+from agno.os.managers.knowledge.schemas import ConfigResponseSchema, DocumentResponseSchema, ReaderSchema
 from agno.os.managers.utils import PaginatedResponse, PaginationInfo, SortOrder
 from agno.utils.log import log_info
 
@@ -21,6 +21,7 @@ def attach_routes(router: APIRouter, knowledge: Knowledge) -> APIRouter:
         url: Optional[str] = Form(None),
         metadata: Optional[str] = Form(None, description="JSON string of metadata dict or list of dicts"),
         file: Optional[UploadFile] = File(None),
+        reader_id: Optional[str] = Form(None),
     ):
         log_info(f"Uploading documents: {name}, {description}, {url}, {metadata}")
         # # Generate ID immediately
@@ -69,7 +70,7 @@ def attach_routes(router: APIRouter, knowledge: Knowledge) -> APIRouter:
         )
 
         # Add the processing task to background tasks
-        background_tasks.add_task(process_document, knowledge, document_id, document)
+        background_tasks.add_task(process_document, knowledge, document_id, document, reader_id)
 
         # Return immediately with the ID
         return {"document_id": document_id, "status": "processing"}
@@ -153,23 +154,25 @@ def attach_routes(router: APIRouter, knowledge: Knowledge) -> APIRouter:
         log_info(f"Getting document status: {document_id}")
         return knowledge.get_document_status(document_id=document_id)
 
-    @router.get("/readers", status_code=200)
-    def get_readers() -> ReaderResponseSchema:
+    @router.get("/config", status_code=200)
+    def get_config() -> ConfigResponseSchema:
         readers = knowledge.get_readers()
-        return ReaderResponseSchema(
+        return ConfigResponseSchema(
             readers=[ReaderSchema(id=k, name=v.name, description=v.description) for k, v in readers.items()],
+            filters=knowledge.get_filters(),
         )
 
     return router
 
 
-def process_document(knowledge: Knowledge, document_id: str, document: DocumentV2):
+def process_document(knowledge: Knowledge, document_id: str, document: DocumentV2, reader_id: Optional[str] = None):
     """Background task to process the document"""
     print(f"Processing document {document_id}")
     try:
         # Set the document ID
         document.id = document_id
         # Process the document
+        document.reader = knowledge.readers[reader_id]
         knowledge.add_document(document)
         print(f"Document {document_id} processed successfully")
     except Exception as e:

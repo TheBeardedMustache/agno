@@ -294,6 +294,7 @@ class Knowledge:
     def _load_from_cloud_storage(self): ...
 
     def _load_document(self, document: DocumentV2) -> None:
+        print(f"Loading document: {document.reader}")
         if document.path or document.url or document.content:
             self._add_to_documents_db(document)
 
@@ -566,6 +567,12 @@ class Knowledge:
             return self.csv_url_reader
         else:
             return self.url_reader
+        
+    def get_filters(self) -> List[str]:
+        return [
+            "filter_tag_1",
+            "filter_tag2",
+        ]
 
     # --- File Readers ---
     @cached_property
