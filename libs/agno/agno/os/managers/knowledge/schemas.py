@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 
 from fastapi import UploadFile
 from pydantic import BaseModel
@@ -16,3 +16,20 @@ class DocumentResponseSchema(BaseModel):
     status: Optional[str] = None
     created_at: Optional[str] = None
     updated_at: Optional[str] = None
+
+
+class ReaderSchema(BaseModel):
+    id: str
+    name: Optional[str] = None
+    description: Optional[str] = None
+
+
+class CrawlerSchema(BaseModel):
+    id: str
+    name: Optional[str] = None
+    description: Optional[str] = None
+
+
+class ReaderResponseSchema(BaseModel):
+    readers: Optional[List[ReaderSchema]] = None
+    crawlers: Optional[List[CrawlerSchema]] = None

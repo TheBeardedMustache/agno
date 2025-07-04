@@ -7,7 +7,7 @@ from agno.knowledge.cloud_storage.cloud_storage import CloudStorageConfig
 
 @dataclass
 class DocumentContent:
-    content: Union[str, bytes]
+    content: Optional[Union[str, bytes]] = None
     type: Optional[str] = None
 
 

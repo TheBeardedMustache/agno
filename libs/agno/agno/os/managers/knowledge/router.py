@@ -7,7 +7,7 @@ from fastapi import APIRouter, BackgroundTasks, File, Form, Query, UploadFile
 
 from agno.document.document_v2 import DocumentContent, DocumentV2
 from agno.knowledge.knowledge import Knowledge
-from agno.os.managers.knowledge.schemas import DocumentResponseSchema
+from agno.os.managers.knowledge.schemas import DocumentResponseSchema, ReaderResponseSchema, ReaderSchema
 from agno.os.managers.utils import PaginatedResponse, PaginationInfo, SortOrder
 from agno.utils.log import log_info
 
@@ -152,6 +152,13 @@ def attach_routes(router: APIRouter, knowledge: Knowledge) -> APIRouter:
     def get_document_status(document_id: str) -> str:
         log_info(f"Getting document status: {document_id}")
         return knowledge.get_document_status(document_id=document_id)
+
+    @router.get("/readers", status_code=200)
+    def get_readers() -> ReaderResponseSchema:
+        readers = knowledge.get_readers()
+        return ReaderResponseSchema(
+            readers=[ReaderSchema(id=k, name=v.name, description=v.description) for k, v in readers.items()],
+        )
 
     return router
 

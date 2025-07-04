@@ -23,8 +23,6 @@ class WikipediaReader(Reader):
                 print(f"PageError: Page not found. Trying search...")
                 # Fallback: try searching and use first result
 
-
-
                 try:
                     search_results = wikipedia.search(topic)
                     if search_results:
@@ -39,9 +37,6 @@ class WikipediaReader(Reader):
                 except Exception as e:
                     print(f"Unexpected error for topic during search '{topic}': {e}")
                     continue
-
-
-
 
             except Exception as e:
                 print(f"Unexpected error for topic '{topic}': {e}")
