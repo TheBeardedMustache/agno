@@ -1,3 +1,0 @@
-# SQLy API Reference
-
-::: sqly

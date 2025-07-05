@@ -14,6 +14,23 @@ def create_monitoring_dashboard():
     
     st.title("🔍 Advanced Constructor Team - Real-time Monitor")
     
+    # Human approvals - Moved to top for immediate visibility
+    st.subheader("✋ Pending Human Approvals")
+    
+    if os.path.exists("human_approvals.log"):
+        with open("human_approvals.log", "r", encoding="utf-8") as f:
+            approvals = f.readlines()[-10:]  # Last 10 approvals
+        
+        if approvals:
+            for approval in approvals:
+                st.warning(approval.strip())
+        else:
+            st.success("No pending approvals")
+    else:
+        st.info("No approvals log file found")
+    
+    st.divider()  # Add visual separation
+    
     # System metrics
     col1, col2, col3, col4 = st.columns(4)
     
@@ -49,16 +66,6 @@ def create_monitoring_dashboard():
                 st.warning(log.strip())
             else:
                 st.info(log.strip())
-    
-    # Human approvals
-    st.subheader("✋ Pending Human Approvals")
-    
-    if os.path.exists("human_approvals.log"):
-        with open("human_approvals.log", "r", encoding="utf-8") as f:
-            approvals = f.readlines()[-10:]  # Last 10 approvals
-        
-        for approval in approvals:
-            st.warning(approval.strip())
     
     # Auto-refresh
     time.sleep(5)

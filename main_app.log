@@ -1185,3 +1185,562 @@
 2025-07-05 16:23:18,801 - httpx - INFO - HTTP Request: POST https://api.agno.com/v2/apps "HTTP/1.1 202 Accepted"
 2025-07-05 16:23:19,375 - httpx - INFO - HTTP Request: POST https://api.agno.com/v2/teams "HTTP/1.1 202 Accepted"
 2025-07-05 16:28:03,397 - __main__ - INFO - Received signal 2, initiating graceful shutdown...
+2025-07-05 17:17:28,672 - __main__ - INFO - Initializing Advanced Constructor Team...
+2025-07-05 17:17:28,673 - __main__ - INFO - [OK] All required environment variables are present
+2025-07-05 17:17:28,674 - __main__ - INFO - [OK] Required directories created
+2025-07-05 17:17:28,743 - __main__ - INFO - [OK] Database connection established
+2025-07-05 17:17:28,798 - __main__ - INFO - [OK] Database tables initialized successfully
+2025-07-05 17:17:28,814 - __main__ - INFO - [OK] Database connection successful
+2025-07-05 17:17:28,815 - __main__ - INFO - [OK] Database setup completed successfully
+2025-07-05 17:17:29,003 - __main__ - INFO - [OK] Memory and storage initialized with persistent tables
+2025-07-05 17:17:29,011 - __main__ - INFO - [SESSION] Created new session: d000b2c1-ab01-42bf-ae07-b0c001bd2960 for user: TheBeardedMustache
+2025-07-05 17:17:29,312 - e2b.api - INFO - Request POST https://api.e2b.app/sandboxes
+2025-07-05 17:17:30,021 - httpx - INFO - HTTP Request: POST https://api.e2b.app/sandboxes "HTTP/1.1 201 Created"
+2025-07-05 17:17:30,021 - e2b.api - INFO - Response 201
+2025-07-05 17:17:30,331 - __main__ - INFO - Created resilient agent: Advanced Code Architect Agent with session: d000b2c1-ab01-42bf-ae07-b0c001bd2960
+2025-07-05 17:17:30,632 - e2b.api - INFO - Request POST https://api.e2b.app/sandboxes
+2025-07-05 17:17:30,937 - httpx - INFO - HTTP Request: POST https://api.e2b.app/sandboxes "HTTP/1.1 201 Created"
+2025-07-05 17:17:30,937 - e2b.api - INFO - Response 201
+2025-07-05 17:17:31,242 - __main__ - INFO - Created resilient agent: Advanced Code Implementer with session: d000b2c1-ab01-42bf-ae07-b0c001bd2960
+2025-07-05 17:17:31,559 - e2b.api - INFO - Request POST https://api.e2b.app/sandboxes
+2025-07-05 17:17:31,914 - httpx - INFO - HTTP Request: POST https://api.e2b.app/sandboxes "HTTP/1.1 201 Created"
+2025-07-05 17:17:31,914 - e2b.api - INFO - Response 201
+2025-07-05 17:17:32,218 - __main__ - INFO - Created resilient agent: Advanced DevOps & Integration Agent with session: d000b2c1-ab01-42bf-ae07-b0c001bd2960
+2025-07-05 17:17:32,219 - __main__ - INFO - Created resilient agent: Deep Researcher with session: d000b2c1-ab01-42bf-ae07-b0c001bd2960
+2025-07-05 17:17:32,219 - __main__ - INFO - Created resilient agent: Librarian with session: d000b2c1-ab01-42bf-ae07-b0c001bd2960
+2025-07-05 17:17:32,219 - __main__ - INFO - Created resilient agent: Rector with session: d000b2c1-ab01-42bf-ae07-b0c001bd2960
+2025-07-05 17:17:32,219 - __main__ - INFO - Created resilient agent: Index-keeper with session: d000b2c1-ab01-42bf-ae07-b0c001bd2960
+2025-07-05 17:17:32,219 - __main__ - INFO - [OK] All agents created successfully
+2025-07-05 17:17:32,222 - __main__ - INFO - [SESSION] Created new session: abdd6478-44b4-49ff-b0f9-136696f1a9eb for user: TheBeardedMustache
+2025-07-05 17:17:32,222 - __main__ - INFO - [OK] Team coordinators created successfully with persistent sessions
+2025-07-05 17:17:32,320 - __main__ - INFO - [OK] Both Playground and AGUI apps created successfully
+2025-07-05 17:17:32,320 - __main__ - INFO - Starting Advanced Constructor Team - Unified Interface...
+2025-07-05 17:17:32,321 - __main__ - INFO - This single application provides:
+2025-07-05 17:17:32,321 - __main__ - INFO -   - Playground interface on port 7777
+2025-07-05 17:17:32,322 - __main__ - INFO -   - AGUI-compatible backend on port 8000
+2025-07-05 17:17:32,322 - __main__ - INFO -   - Persistent memory and session management
+2025-07-05 17:17:32,322 - __main__ - INFO -   - All team functionality unified in one application
+2025-07-05 17:17:34,323 - __main__ - INFO - AGUI server started on port 8000
+2025-07-05 17:17:34,323 - __main__ - INFO - Starting Playground server on port 7777...
+2025-07-05 17:17:37,215 - httpx - INFO - HTTP Request: POST https://api.agno.com/v2/apps "HTTP/1.1 202 Accepted"
+2025-07-05 17:17:37,804 - httpx - INFO - HTTP Request: POST https://api.agno.com/v2/teams "HTTP/1.1 202 Accepted"
+2025-07-05 17:27:46,513 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:27:47,171 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/agent-runs "HTTP/1.1 200 OK"
+2025-07-05 17:27:57,136 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:27:57,728 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/agent-runs "HTTP/1.1 200 OK"
+2025-07-05 17:28:05,364 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:28:06,004 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/agent-runs "HTTP/1.1 200 OK"
+2025-07-05 17:28:11,385 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:28:12,027 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/agent-runs "HTTP/1.1 200 OK"
+2025-07-05 17:28:14,593 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:28:19,543 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:28:21,005 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:28:23,239 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:28:24,239 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:28:25,418 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:28:29,549 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:28:32,401 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:28:34,411 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:28:34,423 - __main__ - INFO - Executing command: mkdir -p "C:\Users\Nick\Desktop\Machine_Spirit_Algorithm\agno\Nicks_projects\Soul_Codex\Lumina_Script"
+2025-07-05 17:28:34,424 - __main__ - INFO - Executing command: mkdir -p "C:\Users\Nick\Desktop\Machine_Spirit_Algorithm\agno\Nicks_projects\Soul_Codex\Lumina_Script\simphony"
+2025-07-05 17:28:34,536 - __main__ - WARNING - Command failed with return code 1
+2025-07-05 17:28:34,548 - __main__ - WARNING - Command failed with return code 1
+2025-07-05 17:28:38,243 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:28:48,254 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:28:49,076 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/agent-runs "HTTP/1.1 200 OK"
+2025-07-05 17:28:50,540 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:28:57,827 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:28:58,601 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:28:59,286 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/agent-runs "HTTP/1.1 200 OK"
+2025-07-05 17:29:00,439 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:29:02,354 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/team-runs "HTTP/1.1 201 Created"
+2025-07-05 17:30:00,050 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:30:00,735 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/agent-runs "HTTP/1.1 200 OK"
+2025-07-05 17:30:03,453 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:30:04,794 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/team-runs "HTTP/1.1 201 Created"
+2025-07-05 17:31:55,207 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:31:55,832 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/agent-runs "HTTP/1.1 200 OK"
+2025-07-05 17:31:57,656 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:32:00,483 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/team-runs "HTTP/1.1 201 Created"
+2025-07-05 17:34:31,148 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:34:31,738 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/agent-runs "HTTP/1.1 200 OK"
+2025-07-05 17:34:43,085 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:34:43,688 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/agent-runs "HTTP/1.1 200 OK"
+2025-07-05 17:34:47,626 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:34:50,151 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:34:51,501 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:34:51,717 - primp - INFO - response: https://html.duckduckgo.com/html 202
+2025-07-05 17:34:51,717 - duckduckgo_search.DDGS - INFO - Error to search using html backend: https://html.duckduckgo.com/html 202 Ratelimit
+2025-07-05 17:34:52,665 - primp - INFO - response: https://lite.duckduckgo.com/lite/ 202
+2025-07-05 17:34:52,666 - duckduckgo_search.DDGS - INFO - Error to search using lite backend: https://lite.duckduckgo.com/lite/ 202 Ratelimit
+2025-07-05 17:34:54,370 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:34:55,500 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:34:59,523 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:35:02,559 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:35:03,771 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:35:07,363 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:35:09,478 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:35:23,441 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:35:24,135 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/agent-runs "HTTP/1.1 200 OK"
+2025-07-05 17:35:25,624 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:35:38,028 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:35:42,086 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:35:42,857 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/agent-runs "HTTP/1.1 200 OK"
+2025-07-05 17:36:02,052 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:36:02,702 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/agent-runs "HTTP/1.1 200 OK"
+2025-07-05 17:36:03,747 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:36:11,604 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:36:15,650 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:36:25,068 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:36:25,990 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/agent-runs "HTTP/1.1 200 OK"
+2025-07-05 17:36:27,211 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:36:31,574 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:36:32,658 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:36:35,247 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:36:36,637 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:36:40,174 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:36:43,207 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:36:46,555 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:36:49,832 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:36:52,687 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:36:59,675 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:37:02,954 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:37:06,199 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:37:09,980 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:37:13,633 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:37:16,065 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:37:20,206 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:37:20,221 - e2b.sandbox_sync.main - INFO - Request: POST https://49999-immkknz4hmmpu64gmkvuu-3b726e36.e2b.app/execute
+2025-07-05 17:37:20,410 - e2b.sandbox_sync.main - INFO - Response: 502 https://49999-immkknz4hmmpu64gmkvuu-3b726e36.e2b.app/execute
+2025-07-05 17:37:20,411 - httpx - INFO - HTTP Request: POST https://49999-immkknz4hmmpu64gmkvuu-3b726e36.e2b.app/execute "HTTP/1.1 502 Bad Gateway"
+2025-07-05 17:37:22,907 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:37:24,494 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:37:24,507 - __main__ - INFO - Executing command: pytest -q --tb=short
+2025-07-05 17:37:29,340 - __main__ - WARNING - Command failed with return code 2
+2025-07-05 17:37:32,782 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:37:36,910 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:37:38,712 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:37:47,972 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:37:50,004 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:37:53,712 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:37:56,228 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:38:04,074 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:38:19,236 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:38:20,117 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/agent-runs "HTTP/1.1 200 OK"
+2025-07-05 17:38:23,421 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:38:36,100 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:38:41,174 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:38:47,064 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:38:48,138 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/agent-runs "HTTP/1.1 200 OK"
+2025-07-05 17:38:49,347 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:38:53,564 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/team-runs "HTTP/1.1 201 Created"
+2025-07-05 17:41:21,315 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:41:22,001 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/agent-runs "HTTP/1.1 200 OK"
+2025-07-05 17:41:35,817 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:41:36,548 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/agent-runs "HTTP/1.1 200 OK"
+2025-07-05 17:41:43,240 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:41:43,937 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/agent-runs "HTTP/1.1 200 OK"
+2025-07-05 17:41:53,598 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:41:54,372 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/agent-runs "HTTP/1.1 200 OK"
+2025-07-05 17:42:06,391 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:42:07,212 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/agent-runs "HTTP/1.1 200 OK"
+2025-07-05 17:42:08,595 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-05 17:42:14,315 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/team-runs "HTTP/1.1 201 Created"
+2025-07-05 17:50:39,837 - __main__ - INFO - Received signal 2, initiating graceful shutdown...
+2025-07-05 17:56:18,485 - __main__ - INFO - Initializing Advanced Constructor Team...
+2025-07-05 17:56:18,485 - __main__ - INFO - [OK] All required environment variables are present
+2025-07-05 17:56:18,487 - __main__ - INFO - [OK] Required directories created
+2025-07-05 17:56:18,697 - __main__ - INFO - [OK] Database connection established
+2025-07-05 17:56:18,751 - __main__ - INFO - [OK] Database tables initialized successfully
+2025-07-05 17:56:18,775 - __main__ - INFO - [OK] Database connection successful
+2025-07-05 17:56:18,776 - __main__ - INFO - [OK] Database setup completed successfully
+2025-07-05 17:56:18,928 - __main__ - INFO - [OK] Memory and storage initialized with persistent tables
+2025-07-05 17:56:18,997 - __main__ - INFO - [SESSION] Created new session: session_TheBeardedMustache_1751752578_d56c77ce for user: TheBeardedMustache
+2025-07-05 17:56:19,005 - __main__ - INFO - [SESSION] Initialized session in team storage: session_TheBeardedMustache_1751752578_d56c77ce
+2025-07-05 17:56:19,309 - e2b.api - INFO - Request POST https://api.e2b.app/sandboxes
+2025-07-05 17:56:20,022 - httpx - INFO - HTTP Request: POST https://api.e2b.app/sandboxes "HTTP/1.1 201 Created"
+2025-07-05 17:56:20,022 - e2b.api - INFO - Response 201
+2025-07-05 17:56:20,332 - __main__ - INFO - Created resilient agent: Advanced Code Architect Agent with session: session_TheBeardedMustache_1751752578_d56c77ce
+2025-07-05 17:56:20,639 - e2b.api - INFO - Request POST https://api.e2b.app/sandboxes
+2025-07-05 17:56:21,081 - httpx - INFO - HTTP Request: POST https://api.e2b.app/sandboxes "HTTP/1.1 201 Created"
+2025-07-05 17:56:21,082 - e2b.api - INFO - Response 201
+2025-07-05 17:56:21,401 - __main__ - INFO - Created resilient agent: Advanced Code Implementer with session: session_TheBeardedMustache_1751752578_d56c77ce
+2025-07-05 17:56:21,701 - e2b.api - INFO - Request POST https://api.e2b.app/sandboxes
+2025-07-05 17:56:22,044 - httpx - INFO - HTTP Request: POST https://api.e2b.app/sandboxes "HTTP/1.1 201 Created"
+2025-07-05 17:56:22,044 - e2b.api - INFO - Response 201
+2025-07-05 17:56:22,355 - __main__ - INFO - Created resilient agent: Advanced DevOps & Integration Agent with session: session_TheBeardedMustache_1751752578_d56c77ce
+2025-07-05 17:56:22,355 - __main__ - INFO - Created resilient agent: Deep Researcher with session: session_TheBeardedMustache_1751752578_d56c77ce
+2025-07-05 17:56:22,356 - __main__ - INFO - Created resilient agent: Librarian with session: session_TheBeardedMustache_1751752578_d56c77ce
+2025-07-05 17:56:22,356 - __main__ - INFO - Created resilient agent: Rector with session: session_TheBeardedMustache_1751752578_d56c77ce
+2025-07-05 17:56:22,356 - __main__ - INFO - Created resilient agent: Index-keeper with session: session_TheBeardedMustache_1751752578_d56c77ce
+2025-07-05 17:56:22,356 - __main__ - INFO - [OK] All agents created successfully
+2025-07-05 17:56:22,361 - __main__ - INFO - [SESSION] Created new session: session_TheBeardedMustache_1751752582_a6dc43d7 for user: TheBeardedMustache
+2025-07-05 17:56:22,366 - __main__ - INFO - [SESSION] Initialized session in team storage: session_TheBeardedMustache_1751752582_a6dc43d7
+2025-07-05 17:56:22,367 - __main__ - INFO - [OK] Team coordinators created successfully with persistent sessions
+2025-07-05 17:56:22,459 - __main__ - INFO - [OK] Both Playground and AGUI apps created successfully
+2025-07-05 17:56:22,460 - __main__ - INFO - Session monitor started
+2025-07-05 17:56:22,460 - __main__ - INFO - [OK] Session monitoring started
+2025-07-05 17:56:22,460 - __main__ - INFO - Starting Advanced Constructor Team - Unified Interface...
+2025-07-05 17:56:22,461 - __main__ - INFO - This single application provides:
+2025-07-05 17:56:22,461 - __main__ - INFO -   - Playground interface on port 7777
+2025-07-05 17:56:22,461 - __main__ - INFO -   - AGUI-compatible backend on port 8000
+2025-07-05 17:56:22,461 - __main__ - INFO -   - Persistent memory and session management
+2025-07-05 17:56:22,462 - __main__ - INFO -   - All team functionality unified in one application
+2025-07-05 17:56:24,462 - __main__ - INFO - AGUI server started on port 8000
+2025-07-05 17:56:24,463 - __main__ - INFO - Starting Playground server on port 7777...
+2025-07-05 17:56:27,253 - httpx - INFO - HTTP Request: POST https://api.agno.com/v2/apps "HTTP/1.1 202 Accepted"
+2025-07-05 17:56:27,822 - httpx - INFO - HTTP Request: POST https://api.agno.com/v2/teams "HTTP/1.1 202 Accepted"
+2025-07-05 17:57:13,632 - __main__ - INFO - Received signal 2, initiating graceful shutdown...
+2025-07-05 18:23:48,385 - __main__ - INFO - Initializing Advanced Constructor Team...
+2025-07-05 18:23:48,385 - __main__ - INFO - [OK] All required environment variables are present
+2025-07-05 18:23:48,387 - __main__ - INFO - [OK] Required directories created
+2025-07-05 18:23:48,439 - __main__ - INFO - [OK] Database connection established
+2025-07-05 18:23:48,499 - __main__ - INFO - [OK] Database tables initialized successfully
+2025-07-05 18:23:48,535 - __main__ - INFO - [OK] Database connection successful
+2025-07-05 18:23:48,536 - __main__ - INFO - [OK] Database setup completed successfully
+2025-07-05 18:23:48,686 - __main__ - INFO - [OK] Memory and storage initialized with persistent tables
+2025-07-05 18:23:48,766 - __main__ - INFO - [OK] All storage tables created successfully
+2025-07-05 18:23:48,767 - __main__ - INFO - Running initial storage health check...
+2025-07-05 18:23:48,767 - __main__ - INFO -   - Team Storage: unified_team_sessions (mode: team)
+2025-07-05 18:23:48,767 - __main__ - INFO -   - Agent Storage: unified_agent_sessions (mode: agent)
+2025-07-05 18:23:48,767 - __main__ - INFO -   - AGUI Team Storage: agui_team_sessions (mode: team)
+2025-07-05 18:23:48,767 - __main__ - INFO -   - AGUI Agent Storage: agui_agent_sessions (mode: agent)
+2025-07-05 18:23:48,767 - __main__ - INFO - [OK] Storage health check completed
+2025-07-05 18:23:48,775 - __main__ - INFO - [SESSION] Created new session: session_TheBeardedMustache_1751754228_2d93e0d4 for user: TheBeardedMustache
+2025-07-05 18:23:48,789 - __main__ - INFO - [SESSION] Initialized session in team storage: session_TheBeardedMustache_1751754228_2d93e0d4
+2025-07-05 18:23:49,095 - e2b.api - INFO - Request POST https://api.e2b.app/sandboxes
+2025-07-05 18:23:49,866 - httpx - INFO - HTTP Request: POST https://api.e2b.app/sandboxes "HTTP/1.1 201 Created"
+2025-07-05 18:23:49,866 - e2b.api - INFO - Response 201
+2025-07-05 18:23:50,179 - __main__ - INFO - Created resilient agent: Advanced Code Architect Agent with session: session_TheBeardedMustache_1751754228_2d93e0d4
+2025-07-05 18:23:50,486 - e2b.api - INFO - Request POST https://api.e2b.app/sandboxes
+2025-07-05 18:23:50,773 - httpx - INFO - HTTP Request: POST https://api.e2b.app/sandboxes "HTTP/1.1 201 Created"
+2025-07-05 18:23:50,773 - e2b.api - INFO - Response 201
+2025-07-05 18:23:51,079 - __main__ - INFO - Created resilient agent: Advanced Code Implementer with session: session_TheBeardedMustache_1751754228_2d93e0d4
+2025-07-05 18:23:51,428 - e2b.api - INFO - Request POST https://api.e2b.app/sandboxes
+2025-07-05 18:23:51,787 - httpx - INFO - HTTP Request: POST https://api.e2b.app/sandboxes "HTTP/1.1 201 Created"
+2025-07-05 18:23:51,788 - e2b.api - INFO - Response 201
+2025-07-05 18:23:52,088 - __main__ - INFO - Created resilient agent: Advanced DevOps & Integration Agent with session: session_TheBeardedMustache_1751754228_2d93e0d4
+2025-07-05 18:23:52,089 - __main__ - INFO - Created resilient agent: Deep Researcher with session: session_TheBeardedMustache_1751754228_2d93e0d4
+2025-07-05 18:23:52,089 - __main__ - INFO - Created resilient agent: Librarian with session: session_TheBeardedMustache_1751754228_2d93e0d4
+2025-07-05 18:23:52,089 - __main__ - INFO - Created resilient agent: Rector with session: session_TheBeardedMustache_1751754228_2d93e0d4
+2025-07-05 18:23:52,090 - __main__ - INFO - Created resilient agent: Index-keeper with session: session_TheBeardedMustache_1751754228_2d93e0d4
+2025-07-05 18:23:52,090 - __main__ - INFO - [OK] All agents created successfully
+2025-07-05 18:23:52,095 - __main__ - INFO - [SESSION] Created new session: session_TheBeardedMustache_1751754232_94b1d798 for user: TheBeardedMustache
+2025-07-05 18:23:52,109 - __main__ - INFO - [SESSION] Initialized session in team storage: session_TheBeardedMustache_1751754232_94b1d798
+2025-07-05 18:23:52,109 - __main__ - INFO - [OK] Team coordinators created successfully with persistent sessions
+2025-07-05 18:23:52,208 - __main__ - INFO - [OK] Both Playground and AGUI apps created successfully
+2025-07-05 18:23:52,208 - __main__ - INFO - Session monitor started
+2025-07-05 18:23:52,209 - __main__ - INFO - [OK] Session monitoring started
+2025-07-05 18:23:52,209 - __main__ - INFO - Starting Advanced Constructor Team - Unified Interface...
+2025-07-05 18:23:52,210 - __main__ - INFO - This single application provides:
+2025-07-05 18:23:52,210 - __main__ - INFO -   - Playground interface on port 7777
+2025-07-05 18:23:52,210 - __main__ - INFO -   - AGUI-compatible backend on port 8000
+2025-07-05 18:23:52,210 - __main__ - INFO -   - Persistent memory and session management
+2025-07-05 18:23:52,211 - __main__ - INFO -   - All team functionality unified in one application
+2025-07-05 18:23:54,211 - __main__ - INFO - AGUI server started on port 8000
+2025-07-05 18:23:54,212 - __main__ - INFO - Starting Playground server on port 7777...
+2025-07-05 18:23:57,118 - httpx - INFO - HTTP Request: POST https://api.agno.com/v2/apps "HTTP/1.1 202 Accepted"
+2025-07-05 18:23:57,705 - httpx - INFO - HTTP Request: POST https://api.agno.com/v2/teams "HTTP/1.1 202 Accepted"
+2025-07-05 18:24:52,209 - __main__ - INFO - === Session Monitor Report ===
+2025-07-05 18:24:52,213 - __main__ - INFO - Team Storage (team mode): 0 sessions
+2025-07-05 18:24:52,216 - __main__ - INFO - AGUI Storage (team mode): 0 sessions
+2025-07-05 18:24:52,216 - __main__ - INFO - === End Session Monitor Report ===
+2025-07-05 18:25:52,217 - __main__ - INFO - === Session Monitor Report ===
+2025-07-05 18:25:52,220 - __main__ - INFO - Team Storage (team mode): 0 sessions
+2025-07-05 18:25:52,222 - __main__ - INFO - AGUI Storage (team mode): 0 sessions
+2025-07-05 18:25:52,222 - __main__ - INFO - === End Session Monitor Report ===
+2025-07-05 18:26:52,223 - __main__ - INFO - === Session Monitor Report ===
+2025-07-05 18:26:52,226 - __main__ - INFO - Team Storage (team mode): 0 sessions
+2025-07-05 18:26:52,229 - __main__ - INFO - AGUI Storage (team mode): 0 sessions
+2025-07-05 18:26:52,229 - __main__ - INFO - === End Session Monitor Report ===
+2025-07-05 18:27:52,229 - __main__ - INFO - === Session Monitor Report ===
+2025-07-05 18:27:52,233 - __main__ - INFO - Team Storage (team mode): 0 sessions
+2025-07-05 18:27:52,236 - __main__ - INFO - AGUI Storage (team mode): 0 sessions
+2025-07-05 18:27:52,236 - __main__ - INFO - === End Session Monitor Report ===
+2025-07-05 18:28:10,601 - __main__ - INFO - Initializing Advanced Constructor Team...
+2025-07-05 18:28:10,602 - __main__ - INFO - [OK] All required environment variables are present
+2025-07-05 18:28:10,604 - __main__ - INFO - [OK] Required directories created
+2025-07-05 18:28:10,659 - __main__ - INFO - [OK] Database connection established
+2025-07-05 18:28:10,736 - __main__ - INFO - [OK] Database tables initialized successfully
+2025-07-05 18:28:10,775 - __main__ - INFO - [OK] Database connection successful
+2025-07-05 18:28:10,775 - __main__ - INFO - [OK] Database setup completed successfully
+2025-07-05 18:28:10,933 - __main__ - INFO - [OK] Memory and storage initialized with persistent tables
+2025-07-05 18:28:10,952 - __main__ - INFO - [OK] All storage tables created successfully
+2025-07-05 18:28:10,952 - __main__ - INFO - Running initial storage health check...
+2025-07-05 18:28:10,952 - __main__ - INFO -   - Team Storage: unified_team_sessions (mode: team)
+2025-07-05 18:28:10,952 - __main__ - INFO -   - Agent Storage: unified_agent_sessions (mode: agent)
+2025-07-05 18:28:10,952 - __main__ - INFO -   - AGUI Team Storage: agui_team_sessions (mode: team)
+2025-07-05 18:28:10,952 - __main__ - INFO -   - AGUI Agent Storage: agui_agent_sessions (mode: agent)
+2025-07-05 18:28:10,952 - __main__ - INFO - [OK] Storage health check completed
+2025-07-05 18:28:10,961 - __main__ - INFO - [SESSION] Created new session: session_TheBeardedMustache_1751754490_bb8cad1b for user: TheBeardedMustache
+2025-07-05 18:28:10,975 - __main__ - INFO - [SESSION] Initialized session in team storage: session_TheBeardedMustache_1751754490_bb8cad1b
+2025-07-05 18:28:11,284 - e2b.api - INFO - Request POST https://api.e2b.app/sandboxes
+2025-07-05 18:28:11,807 - httpx - INFO - HTTP Request: POST https://api.e2b.app/sandboxes "HTTP/1.1 201 Created"
+2025-07-05 18:28:11,807 - e2b.api - INFO - Response 201
+2025-07-05 18:28:12,121 - __main__ - INFO - Created resilient agent: Advanced Code Architect Agent with session: session_TheBeardedMustache_1751754490_bb8cad1b
+2025-07-05 18:28:12,433 - e2b.api - INFO - Request POST https://api.e2b.app/sandboxes
+2025-07-05 18:28:12,736 - httpx - INFO - HTTP Request: POST https://api.e2b.app/sandboxes "HTTP/1.1 201 Created"
+2025-07-05 18:28:12,736 - e2b.api - INFO - Response 201
+2025-07-05 18:28:13,044 - __main__ - INFO - Created resilient agent: Advanced Code Implementer with session: session_TheBeardedMustache_1751754490_bb8cad1b
+2025-07-05 18:28:13,352 - e2b.api - INFO - Request POST https://api.e2b.app/sandboxes
+2025-07-05 18:28:13,630 - httpx - INFO - HTTP Request: POST https://api.e2b.app/sandboxes "HTTP/1.1 201 Created"
+2025-07-05 18:28:13,630 - e2b.api - INFO - Response 201
+2025-07-05 18:28:13,943 - __main__ - INFO - Created resilient agent: Advanced DevOps & Integration Agent with session: session_TheBeardedMustache_1751754490_bb8cad1b
+2025-07-05 18:28:13,944 - __main__ - INFO - Created resilient agent: Deep Researcher with session: session_TheBeardedMustache_1751754490_bb8cad1b
+2025-07-05 18:28:13,944 - __main__ - INFO - Created resilient agent: Librarian with session: session_TheBeardedMustache_1751754490_bb8cad1b
+2025-07-05 18:28:13,944 - __main__ - INFO - Created resilient agent: Rector with session: session_TheBeardedMustache_1751754490_bb8cad1b
+2025-07-05 18:28:13,945 - __main__ - INFO - Created resilient agent: Index-keeper with session: session_TheBeardedMustache_1751754490_bb8cad1b
+2025-07-05 18:28:13,945 - __main__ - INFO - [OK] All agents created successfully
+2025-07-05 18:28:13,951 - __main__ - INFO - [SESSION] Created new session: session_TheBeardedMustache_1751754493_7e5b926b for user: TheBeardedMustache
+2025-07-05 18:28:13,966 - __main__ - INFO - [SESSION] Initialized session in team storage: session_TheBeardedMustache_1751754493_7e5b926b
+2025-07-05 18:28:13,967 - __main__ - INFO - [OK] Team coordinators created successfully with persistent sessions
+2025-07-05 18:28:14,078 - __main__ - INFO - [OK] Both Playground and AGUI apps created successfully
+2025-07-05 18:28:14,079 - __main__ - INFO - Session monitor started
+2025-07-05 18:28:14,079 - __main__ - INFO - [OK] Session monitoring started
+2025-07-05 18:28:14,079 - __main__ - INFO - Starting Advanced Constructor Team - Unified Interface...
+2025-07-05 18:28:14,080 - __main__ - INFO - This single application provides:
+2025-07-05 18:28:14,081 - __main__ - INFO -   - Playground interface on port 7777
+2025-07-05 18:28:14,081 - __main__ - INFO -   - AGUI-compatible backend on port 8000
+2025-07-05 18:28:14,081 - __main__ - INFO -   - Persistent memory and session management
+2025-07-05 18:28:14,081 - __main__ - INFO -   - All team functionality unified in one application
+2025-07-05 18:28:16,082 - __main__ - INFO - AGUI server started on port 8000
+2025-07-05 18:28:16,083 - __main__ - INFO - Starting Playground server on port 7777...
+2025-07-05 18:28:19,045 - httpx - INFO - HTTP Request: POST https://api.agno.com/v2/apps "HTTP/1.1 202 Accepted"
+2025-07-05 18:28:19,622 - httpx - INFO - HTTP Request: POST https://api.agno.com/v2/teams "HTTP/1.1 202 Accepted"
+2025-07-05 18:28:52,237 - __main__ - INFO - === Session Monitor Report ===
+2025-07-05 18:28:52,240 - __main__ - INFO - Team Storage (team mode): 0 sessions
+2025-07-05 18:28:52,242 - __main__ - INFO - AGUI Storage (team mode): 0 sessions
+2025-07-05 18:28:52,242 - __main__ - INFO - === End Session Monitor Report ===
+2025-07-05 18:29:28,570 - __main__ - INFO - Initializing Advanced Constructor Team...
+2025-07-05 18:29:28,570 - __main__ - INFO - [OK] All required environment variables are present
+2025-07-05 18:29:28,572 - __main__ - INFO - [OK] Required directories created
+2025-07-05 18:29:28,620 - __main__ - INFO - [OK] Database connection established
+2025-07-05 18:29:28,691 - __main__ - INFO - [OK] Database tables initialized successfully
+2025-07-05 18:29:28,731 - __main__ - INFO - [OK] Database connection successful
+2025-07-05 18:29:28,731 - __main__ - INFO - [OK] Database setup completed successfully
+2025-07-05 18:29:28,882 - __main__ - INFO - [OK] Memory and storage initialized with persistent tables
+2025-07-05 18:29:28,902 - __main__ - INFO - [OK] All storage tables created successfully
+2025-07-05 18:29:28,902 - __main__ - INFO - Running initial storage health check...
+2025-07-05 18:29:28,902 - __main__ - INFO -   - Team Storage: unified_team_sessions (mode: team)
+2025-07-05 18:29:28,902 - __main__ - INFO -   - Agent Storage: unified_agent_sessions (mode: agent)
+2025-07-05 18:29:28,902 - __main__ - INFO -   - AGUI Team Storage: agui_team_sessions (mode: team)
+2025-07-05 18:29:28,902 - __main__ - INFO -   - AGUI Agent Storage: agui_agent_sessions (mode: agent)
+2025-07-05 18:29:28,902 - __main__ - INFO - [OK] Storage health check completed
+2025-07-05 18:29:28,912 - __main__ - INFO - [SESSION] Created new session: session_TheBeardedMustache_1751754568_95b137a8 for user: TheBeardedMustache
+2025-07-05 18:29:28,930 - __main__ - INFO - [SESSION] Initialized session in team storage: session_TheBeardedMustache_1751754568_95b137a8
+2025-07-05 18:29:29,253 - e2b.api - INFO - Request POST https://api.e2b.app/sandboxes
+2025-07-05 18:29:29,595 - httpx - INFO - HTTP Request: POST https://api.e2b.app/sandboxes "HTTP/1.1 201 Created"
+2025-07-05 18:29:29,595 - e2b.api - INFO - Response 201
+2025-07-05 18:29:29,921 - __main__ - INFO - Created resilient agent: Advanced Code Architect Agent with session: session_TheBeardedMustache_1751754568_95b137a8
+2025-07-05 18:29:30,238 - e2b.api - INFO - Request POST https://api.e2b.app/sandboxes
+2025-07-05 18:29:30,694 - httpx - INFO - HTTP Request: POST https://api.e2b.app/sandboxes "HTTP/1.1 201 Created"
+2025-07-05 18:29:30,694 - e2b.api - INFO - Response 201
+2025-07-05 18:29:31,006 - __main__ - INFO - Created resilient agent: Advanced Code Implementer with session: session_TheBeardedMustache_1751754568_95b137a8
+2025-07-05 18:29:31,313 - e2b.api - INFO - Request POST https://api.e2b.app/sandboxes
+2025-07-05 18:29:31,606 - httpx - INFO - HTTP Request: POST https://api.e2b.app/sandboxes "HTTP/1.1 201 Created"
+2025-07-05 18:29:31,607 - e2b.api - INFO - Response 201
+2025-07-05 18:29:31,932 - __main__ - INFO - Created resilient agent: Advanced DevOps & Integration Agent with session: session_TheBeardedMustache_1751754568_95b137a8
+2025-07-05 18:29:31,932 - __main__ - INFO - Created resilient agent: Deep Researcher with session: session_TheBeardedMustache_1751754568_95b137a8
+2025-07-05 18:29:31,932 - __main__ - INFO - Created resilient agent: Librarian with session: session_TheBeardedMustache_1751754568_95b137a8
+2025-07-05 18:29:31,933 - __main__ - INFO - Created resilient agent: Rector with session: session_TheBeardedMustache_1751754568_95b137a8
+2025-07-05 18:29:31,933 - __main__ - INFO - Created resilient agent: Index-keeper with session: session_TheBeardedMustache_1751754568_95b137a8
+2025-07-05 18:29:31,933 - __main__ - INFO - [OK] All agents created successfully
+2025-07-05 18:29:31,937 - __main__ - INFO - [SESSION] Created new session: session_TheBeardedMustache_1751754571_1d000f89 for user: TheBeardedMustache
+2025-07-05 18:29:31,951 - __main__ - INFO - [SESSION] Initialized session in team storage: session_TheBeardedMustache_1751754571_1d000f89
+2025-07-05 18:29:31,951 - __main__ - INFO - [OK] Team coordinators created successfully with persistent sessions
+2025-07-05 18:29:32,040 - __main__ - INFO - [OK] Both Playground and AGUI apps created successfully
+2025-07-05 18:29:32,041 - __main__ - INFO - Session monitor started
+2025-07-05 18:29:32,041 - __main__ - INFO - [OK] Session monitoring started
+2025-07-05 18:29:32,041 - __main__ - INFO - Starting Advanced Constructor Team - Unified Interface...
+2025-07-05 18:29:32,042 - __main__ - INFO - This single application provides:
+2025-07-05 18:29:32,042 - __main__ - INFO -   - Playground interface on port 7777
+2025-07-05 18:29:32,042 - __main__ - INFO -   - AGUI-compatible backend on port 8000
+2025-07-05 18:29:32,042 - __main__ - INFO -   - Persistent memory and session management
+2025-07-05 18:29:32,042 - __main__ - INFO -   - All team functionality unified in one application
+2025-07-05 18:29:34,043 - __main__ - INFO - AGUI server started on port 8000
+2025-07-05 18:29:34,043 - __main__ - INFO - Starting Playground server on port 7777...
+2025-07-05 18:29:34,045 - __main__ - ERROR - Failed to start server: [Errno 22] Invalid argument
+2025-07-05 18:29:52,243 - __main__ - INFO - === Session Monitor Report ===
+2025-07-05 18:29:52,247 - __main__ - INFO - Team Storage (team mode): 0 sessions
+2025-07-05 18:29:52,249 - __main__ - INFO - AGUI Storage (team mode): 0 sessions
+2025-07-05 18:29:52,249 - __main__ - INFO - === End Session Monitor Report ===
+2025-07-05 18:30:52,250 - __main__ - INFO - === Session Monitor Report ===
+2025-07-05 18:30:52,253 - __main__ - INFO - Team Storage (team mode): 0 sessions
+2025-07-05 18:30:52,255 - __main__ - INFO - AGUI Storage (team mode): 0 sessions
+2025-07-05 18:30:52,255 - __main__ - INFO - === End Session Monitor Report ===
+2025-07-05 18:31:52,256 - __main__ - INFO - === Session Monitor Report ===
+2025-07-05 18:31:52,259 - __main__ - INFO - Team Storage (team mode): 0 sessions
+2025-07-05 18:31:52,262 - __main__ - INFO - AGUI Storage (team mode): 0 sessions
+2025-07-05 18:31:52,262 - __main__ - INFO - === End Session Monitor Report ===
+2025-07-05 18:32:42,767 - __main__ - INFO - Initializing Advanced Constructor Team...
+2025-07-05 18:32:42,767 - __main__ - INFO - [OK] All required environment variables are present
+2025-07-05 18:32:42,769 - __main__ - INFO - [OK] Required directories created
+2025-07-05 18:32:42,818 - __main__ - INFO - [OK] Database connection established
+2025-07-05 18:32:42,888 - __main__ - INFO - [OK] Database tables initialized successfully
+2025-07-05 18:32:42,905 - __main__ - INFO - [OK] Database connection successful
+2025-07-05 18:32:42,905 - __main__ - INFO - [OK] Database setup completed successfully
+2025-07-05 18:32:43,084 - __main__ - INFO - [OK] Memory and storage initialized with persistent tables
+2025-07-05 18:32:43,102 - __main__ - INFO - [OK] All storage tables created successfully
+2025-07-05 18:32:43,102 - __main__ - INFO - Running initial storage health check...
+2025-07-05 18:32:43,102 - __main__ - INFO -   - Team Storage: unified_team_sessions (mode: team)
+2025-07-05 18:32:43,102 - __main__ - INFO -   - Agent Storage: unified_agent_sessions (mode: agent)
+2025-07-05 18:32:43,102 - __main__ - INFO -   - AGUI Team Storage: agui_team_sessions (mode: team)
+2025-07-05 18:32:43,102 - __main__ - INFO -   - AGUI Agent Storage: agui_agent_sessions (mode: agent)
+2025-07-05 18:32:43,102 - __main__ - INFO - [OK] Storage health check completed
+2025-07-05 18:32:43,111 - __main__ - INFO - [SESSION] Created new session: session_TheBeardedMustache_1751754763_6c256448 for user: TheBeardedMustache
+2025-07-05 18:32:43,124 - __main__ - INFO - [SESSION] Initialized session in team storage: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:32:43,436 - e2b.api - INFO - Request POST https://api.e2b.app/sandboxes
+2025-07-05 18:32:43,794 - httpx - INFO - HTTP Request: POST https://api.e2b.app/sandboxes "HTTP/1.1 201 Created"
+2025-07-05 18:32:43,795 - e2b.api - INFO - Response 201
+2025-07-05 18:32:44,104 - __main__ - INFO - Created resilient agent: Advanced Code Architect Agent with session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:32:44,411 - e2b.api - INFO - Request POST https://api.e2b.app/sandboxes
+2025-07-05 18:32:44,792 - httpx - INFO - HTTP Request: POST https://api.e2b.app/sandboxes "HTTP/1.1 201 Created"
+2025-07-05 18:32:44,793 - e2b.api - INFO - Response 201
+2025-07-05 18:32:45,099 - __main__ - INFO - Created resilient agent: Advanced Code Implementer with session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:32:45,406 - e2b.api - INFO - Request POST https://api.e2b.app/sandboxes
+2025-07-05 18:32:45,703 - httpx - INFO - HTTP Request: POST https://api.e2b.app/sandboxes "HTTP/1.1 201 Created"
+2025-07-05 18:32:45,703 - e2b.api - INFO - Response 201
+2025-07-05 18:32:46,034 - __main__ - INFO - Created resilient agent: Advanced DevOps & Integration Agent with session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:32:46,034 - __main__ - INFO - Created resilient agent: Deep Researcher with session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:32:46,035 - __main__ - INFO - Created resilient agent: Librarian with session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:32:46,035 - __main__ - INFO - Created resilient agent: Rector with session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:32:46,035 - __main__ - INFO - Created resilient agent: Index-keeper with session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:32:46,035 - __main__ - INFO - [OK] All agents created successfully
+2025-07-05 18:32:46,038 - __main__ - INFO - [SESSION] Found existing session in team storage: session_TheBeardedMustache_1751754763_6c256448 for user: TheBeardedMustache
+2025-07-05 18:32:46,038 - __main__ - INFO - [OK] Team coordinators created successfully with persistent sessions
+2025-07-05 18:32:46,134 - __main__ - INFO - [OK] Both Playground and AGUI apps created successfully
+2025-07-05 18:32:46,134 - __main__ - INFO - Session monitor started
+2025-07-05 18:32:46,135 - __main__ - INFO - [OK] Session monitoring started
+2025-07-05 18:32:46,135 - __main__ - INFO - Starting Advanced Constructor Team - Unified Interface...
+2025-07-05 18:32:46,136 - __main__ - INFO - This single application provides:
+2025-07-05 18:32:46,136 - __main__ - INFO -   - Playground interface on port 7777
+2025-07-05 18:32:46,136 - __main__ - INFO -   - AGUI-compatible backend on port 8000
+2025-07-05 18:32:46,136 - __main__ - INFO -   - Persistent memory and session management
+2025-07-05 18:32:46,136 - __main__ - INFO -   - All team functionality unified in one application
+2025-07-05 18:32:48,137 - __main__ - INFO - AGUI server started on port 8000
+2025-07-05 18:32:48,137 - __main__ - INFO - Starting Playground server on port 7777...
+2025-07-05 18:32:48,139 - __main__ - ERROR - Failed to start server: [Errno 22] Invalid argument
+2025-07-05 18:32:52,263 - __main__ - INFO - === Session Monitor Report ===
+2025-07-05 18:32:52,266 - __main__ - INFO - Team Storage (team mode): 1 sessions
+2025-07-05 18:32:52,266 - __main__ - INFO -   Latest session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:32:52,268 - __main__ - INFO - AGUI Storage (team mode): 0 sessions
+2025-07-05 18:32:52,268 - __main__ - INFO - === End Session Monitor Report ===
+2025-07-05 18:33:52,269 - __main__ - INFO - === Session Monitor Report ===
+2025-07-05 18:33:52,272 - __main__ - INFO - Team Storage (team mode): 1 sessions
+2025-07-05 18:33:52,272 - __main__ - INFO -   Latest session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:33:52,274 - __main__ - INFO - AGUI Storage (team mode): 0 sessions
+2025-07-05 18:33:52,274 - __main__ - INFO - === End Session Monitor Report ===
+2025-07-05 18:34:52,274 - __main__ - INFO - === Session Monitor Report ===
+2025-07-05 18:34:52,277 - __main__ - INFO - Team Storage (team mode): 1 sessions
+2025-07-05 18:34:52,277 - __main__ - INFO -   Latest session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:34:52,279 - __main__ - INFO - AGUI Storage (team mode): 0 sessions
+2025-07-05 18:34:52,280 - __main__ - INFO - === End Session Monitor Report ===
+2025-07-05 18:35:52,280 - __main__ - INFO - === Session Monitor Report ===
+2025-07-05 18:35:52,283 - __main__ - INFO - Team Storage (team mode): 1 sessions
+2025-07-05 18:35:52,283 - __main__ - INFO -   Latest session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:35:52,285 - __main__ - INFO - AGUI Storage (team mode): 0 sessions
+2025-07-05 18:35:52,285 - __main__ - INFO - === End Session Monitor Report ===
+2025-07-05 18:36:27,452 - __main__ - INFO - Received signal 2, initiating graceful shutdown...
+2025-07-05 18:36:34,159 - __main__ - INFO - Initializing Advanced Constructor Team...
+2025-07-05 18:36:34,159 - __main__ - INFO - [OK] All required environment variables are present
+2025-07-05 18:36:34,161 - __main__ - INFO - [OK] Required directories created
+2025-07-05 18:36:34,234 - __main__ - INFO - [OK] Database connection established
+2025-07-05 18:36:34,308 - __main__ - INFO - [OK] Database tables initialized successfully
+2025-07-05 18:36:34,324 - __main__ - INFO - [OK] Database connection successful
+2025-07-05 18:36:34,324 - __main__ - INFO - [OK] Database setup completed successfully
+2025-07-05 18:36:34,456 - __main__ - INFO - [OK] Memory and storage initialized with persistent tables
+2025-07-05 18:36:34,474 - __main__ - INFO - [OK] All storage tables created successfully
+2025-07-05 18:36:34,474 - __main__ - INFO - Running initial storage health check...
+2025-07-05 18:36:34,475 - __main__ - INFO -   - Team Storage: unified_team_sessions (mode: team)
+2025-07-05 18:36:34,475 - __main__ - INFO -   - Agent Storage: unified_agent_sessions (mode: agent)
+2025-07-05 18:36:34,475 - __main__ - INFO -   - AGUI Team Storage: agui_team_sessions (mode: team)
+2025-07-05 18:36:34,475 - __main__ - INFO -   - AGUI Agent Storage: agui_agent_sessions (mode: agent)
+2025-07-05 18:36:34,475 - __main__ - INFO - [OK] Storage health check completed
+2025-07-05 18:36:34,481 - __main__ - INFO - [SESSION] Found existing session in team storage: session_TheBeardedMustache_1751754763_6c256448 for user: TheBeardedMustache
+2025-07-05 18:36:34,786 - e2b.api - INFO - Request POST https://api.e2b.app/sandboxes
+2025-07-05 18:36:35,303 - httpx - INFO - HTTP Request: POST https://api.e2b.app/sandboxes "HTTP/1.1 201 Created"
+2025-07-05 18:36:35,303 - e2b.api - INFO - Response 201
+2025-07-05 18:36:35,610 - __main__ - INFO - Created resilient agent: Advanced Code Architect Agent with session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:36:35,914 - e2b.api - INFO - Request POST https://api.e2b.app/sandboxes
+2025-07-05 18:36:36,196 - httpx - INFO - HTTP Request: POST https://api.e2b.app/sandboxes "HTTP/1.1 201 Created"
+2025-07-05 18:36:36,196 - e2b.api - INFO - Response 201
+2025-07-05 18:36:36,513 - __main__ - INFO - Created resilient agent: Advanced Code Implementer with session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:36:36,833 - e2b.api - INFO - Request POST https://api.e2b.app/sandboxes
+2025-07-05 18:36:37,201 - httpx - INFO - HTTP Request: POST https://api.e2b.app/sandboxes "HTTP/1.1 201 Created"
+2025-07-05 18:36:37,202 - e2b.api - INFO - Response 201
+2025-07-05 18:36:37,530 - __main__ - INFO - Created resilient agent: Advanced DevOps & Integration Agent with session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:36:37,531 - __main__ - INFO - Created resilient agent: Deep Researcher with session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:36:37,531 - __main__ - INFO - Created resilient agent: Librarian with session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:36:37,531 - __main__ - INFO - Created resilient agent: Rector with session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:36:37,535 - __main__ - INFO - Created resilient agent: Index-keeper with session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:36:37,535 - __main__ - INFO - [OK] All agents created successfully
+2025-07-05 18:36:37,538 - __main__ - INFO - [SESSION] Found existing session in team storage: session_TheBeardedMustache_1751754763_6c256448 for user: TheBeardedMustache
+2025-07-05 18:36:37,538 - __main__ - INFO - [OK] Team coordinators created successfully with persistent sessions
+2025-07-05 18:36:37,633 - __main__ - INFO - [OK] Both Playground and AGUI apps created successfully
+2025-07-05 18:36:37,634 - __main__ - INFO - Session monitor started
+2025-07-05 18:36:37,634 - __main__ - INFO - [OK] Session monitoring started
+2025-07-05 18:36:37,634 - __main__ - INFO - Starting Advanced Constructor Team - Unified Interface...
+2025-07-05 18:36:37,635 - __main__ - INFO - This single application provides:
+2025-07-05 18:36:37,635 - __main__ - INFO -   - Playground interface on port 7777
+2025-07-05 18:36:37,635 - __main__ - INFO -   - AGUI-compatible backend on port 8000
+2025-07-05 18:36:37,635 - __main__ - INFO -   - Persistent memory and session management
+2025-07-05 18:36:37,635 - __main__ - INFO -   - All team functionality unified in one application
+2025-07-05 18:36:39,636 - __main__ - INFO - AGUI server started on port 8000
+2025-07-05 18:36:39,637 - __main__ - INFO - Starting Playground server on port 7777...
+2025-07-05 18:36:42,455 - httpx - INFO - HTTP Request: POST https://api.agno.com/v2/apps "HTTP/1.1 202 Accepted"
+2025-07-05 18:36:43,029 - httpx - INFO - HTTP Request: POST https://api.agno.com/v2/teams "HTTP/1.1 202 Accepted"
+2025-07-05 18:37:37,634 - __main__ - INFO - === Session Monitor Report ===
+2025-07-05 18:37:37,637 - __main__ - INFO - Team Storage (team mode): 1 sessions
+2025-07-05 18:37:37,638 - __main__ - INFO -   Latest session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:37:37,642 - __main__ - INFO - AGUI Storage (team mode): 0 sessions
+2025-07-05 18:37:37,642 - __main__ - INFO - === End Session Monitor Report ===
+2025-07-05 18:38:37,643 - __main__ - INFO - === Session Monitor Report ===
+2025-07-05 18:38:37,645 - __main__ - INFO - Team Storage (team mode): 1 sessions
+2025-07-05 18:38:37,646 - __main__ - INFO -   Latest session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:38:37,648 - __main__ - INFO - AGUI Storage (team mode): 0 sessions
+2025-07-05 18:38:37,648 - __main__ - INFO - === End Session Monitor Report ===
+2025-07-05 18:39:37,649 - __main__ - INFO - === Session Monitor Report ===
+2025-07-05 18:39:37,652 - __main__ - INFO - Team Storage (team mode): 1 sessions
+2025-07-05 18:39:37,653 - __main__ - INFO -   Latest session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:39:37,656 - __main__ - INFO - AGUI Storage (team mode): 0 sessions
+2025-07-05 18:39:37,656 - __main__ - INFO - === End Session Monitor Report ===
+2025-07-05 18:40:37,656 - __main__ - INFO - === Session Monitor Report ===
+2025-07-05 18:40:37,660 - __main__ - INFO - Team Storage (team mode): 1 sessions
+2025-07-05 18:40:37,660 - __main__ - INFO -   Latest session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:40:37,663 - __main__ - INFO - AGUI Storage (team mode): 0 sessions
+2025-07-05 18:40:37,663 - __main__ - INFO - === End Session Monitor Report ===
+2025-07-05 18:41:37,664 - __main__ - INFO - === Session Monitor Report ===
+2025-07-05 18:41:37,667 - __main__ - INFO - Team Storage (team mode): 1 sessions
+2025-07-05 18:41:37,667 - __main__ - INFO -   Latest session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:41:37,669 - __main__ - INFO - AGUI Storage (team mode): 0 sessions
+2025-07-05 18:41:37,669 - __main__ - INFO - === End Session Monitor Report ===
+2025-07-05 18:42:37,670 - __main__ - INFO - === Session Monitor Report ===
+2025-07-05 18:42:37,673 - __main__ - INFO - Team Storage (team mode): 1 sessions
+2025-07-05 18:42:37,673 - __main__ - INFO -   Latest session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:42:37,675 - __main__ - INFO - AGUI Storage (team mode): 0 sessions
+2025-07-05 18:42:37,676 - __main__ - INFO - === End Session Monitor Report ===
+2025-07-05 18:43:37,676 - __main__ - INFO - === Session Monitor Report ===
+2025-07-05 18:43:37,680 - __main__ - INFO - Team Storage (team mode): 1 sessions
+2025-07-05 18:43:37,680 - __main__ - INFO -   Latest session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:43:37,682 - __main__ - INFO - AGUI Storage (team mode): 0 sessions
+2025-07-05 18:43:37,682 - __main__ - INFO - === End Session Monitor Report ===
+2025-07-05 18:44:37,683 - __main__ - INFO - === Session Monitor Report ===
+2025-07-05 18:44:37,686 - __main__ - INFO - Team Storage (team mode): 1 sessions
+2025-07-05 18:44:37,686 - __main__ - INFO -   Latest session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:44:37,688 - __main__ - INFO - AGUI Storage (team mode): 0 sessions
+2025-07-05 18:44:37,688 - __main__ - INFO - === End Session Monitor Report ===
+2025-07-05 18:45:37,689 - __main__ - INFO - === Session Monitor Report ===
+2025-07-05 18:45:37,692 - __main__ - INFO - Team Storage (team mode): 1 sessions
+2025-07-05 18:45:37,692 - __main__ - INFO -   Latest session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:45:37,694 - __main__ - INFO - AGUI Storage (team mode): 0 sessions
+2025-07-05 18:45:37,694 - __main__ - INFO - === End Session Monitor Report ===
+2025-07-05 18:46:37,694 - __main__ - INFO - === Session Monitor Report ===
+2025-07-05 18:46:37,697 - __main__ - INFO - Team Storage (team mode): 1 sessions
+2025-07-05 18:46:37,697 - __main__ - INFO -   Latest session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:46:37,699 - __main__ - INFO - AGUI Storage (team mode): 0 sessions
+2025-07-05 18:46:37,699 - __main__ - INFO - === End Session Monitor Report ===
+2025-07-05 18:47:37,700 - __main__ - INFO - === Session Monitor Report ===
+2025-07-05 18:47:37,703 - __main__ - INFO - Team Storage (team mode): 1 sessions
+2025-07-05 18:47:37,703 - __main__ - INFO -   Latest session: session_TheBeardedMustache_1751754763_6c256448
+2025-07-05 18:47:37,705 - __main__ - INFO - AGUI Storage (team mode): 0 sessions
+2025-07-05 18:47:37,705 - __main__ - INFO - === End Session Monitor Report ===

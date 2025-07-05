@@ -4,7 +4,12 @@ import logging
 import traceback
 import signal
 import time
+import re
+import socket
+import threading
+import uvicorn
 from typing import Optional
+from pathlib import Path
 from dotenv import load_dotenv
 import psycopg
 import uuid
@@ -27,14 +32,16 @@ from agno.tools.e2b import E2BTools
 from agno.tools.googlesearch import GoogleSearchTools
 from agno.tools.knowledge import KnowledgeTools
 from agno.app.agui import AGUIApp
-from agno.tools.pdf import PDFTools
-from agno.tools.website import WebsiteTools
-import PyPDF2
-import fitz  # PyMuPDF
-import markdown
-import os
-import re
-from pathlib import Path
+
+# Try to import PDF processing libraries
+try:
+    import fitz  # PyMuPDF - optional
+except ImportError:
+    fitz = None
+try:
+    import PyPDF2  # optional
+except ImportError:
+    PyPDF2 = None
 
 # Configure logging - simplified
 logging.basicConfig(
@@ -301,20 +308,95 @@ def setup_database():
 def get_or_create_session(user_id: str = "TheBeardedMustache") -> str:
     """Get existing session or create new one for user"""
     try:
-        # Try to get existing sessions for the user
+        # First check team storage
         existing_sessions = team_storage.get_all_session_ids(user_id)
         if existing_sessions and len(existing_sessions) > 0:
-            session_id = existing_sessions[0]  # Use the most recent session
-            logger.info(f"[SESSION] Continuing existing session: {session_id} for user: {user_id}")
+            session_id = existing_sessions[-1]  # Use the most recent session (last in list)
+            logger.info(f"[SESSION] Found existing session in team storage: {session_id} for user: {user_id}")
             return session_id
-        else:
-            # Create new session
-            session_id = str(uuid.uuid4())
-            logger.info(f"[SESSION] Created new session: {session_id} for user: {user_id}")
-            return session_id
+        
+        # Then check AGUI storage
+        try:
+            agui_sessions = agui_team_storage.get_all_session_ids(user_id)
+            if agui_sessions and len(agui_sessions) > 0:
+                session_id = agui_sessions[-1]  # Use the most recent session
+                logger.info(f"[SESSION] Found existing session in AGUI storage: {session_id} for user: {user_id}")
+                return session_id
+        except Exception as e:
+            logger.warning(f"[SESSION] Error checking AGUI storage: {e}")
+        
+        # Create new session with timestamp for uniqueness
+        session_id = f"session_{user_id}_{int(time.time())}_{str(uuid.uuid4())[:8]}"
+        logger.info(f"[SESSION] Created new session: {session_id} for user: {user_id}")
+        
+        # Try to initialize the session in storage
+        try:
+            from agno.storage.session.team import TeamSession
+            initial_session = TeamSession(
+                session_id=session_id,
+                user_id=user_id,
+                team_id="advanced_constructor_team",  # Add required team_id
+                team_data={"initialized": True, "created_at": int(time.time())},
+                session_data={"status": "active"},
+                extra_data={"source": "main_app"}
+            )
+            team_storage.upsert(initial_session)
+            logger.info(f"[SESSION] Initialized session in team storage: {session_id}")
+        except Exception as e:
+            logger.warning(f"[SESSION] Could not initialize session in storage: {e}")
+        
+        return session_id
+        
     except Exception as e:
         logger.warning(f"[SESSION] Error managing session: {e}, creating new session")
-        return str(uuid.uuid4())
+        # Fallback session with timestamp
+        fallback_session = f"session_{user_id}_{int(time.time())}_{str(uuid.uuid4())[:8]}"
+        logger.info(f"[SESSION] Created fallback session: {fallback_session}")
+        return fallback_session
+
+# Session monitoring functionality
+def start_session_monitor():
+    """Start a background thread to monitor session activity"""
+    def monitor_sessions():
+        """Monitor session activity and log status"""
+        while not shutdown_handler.shutdown_requested:
+            try:
+                # Check session activity every 60 seconds
+                time.sleep(60)
+                
+                # Log session status
+                logger.info("=== Session Monitor Report ===")
+                
+                # Check team storage
+                try:
+                    team_sessions = team_storage.get_all_session_ids("TheBeardedMustache")
+                    logger.info(f"Team Storage ({team_storage.mode} mode): {len(team_sessions) if team_sessions else 0} sessions")
+                    if team_sessions:
+                        logger.info(f"  Latest session: {team_sessions[-1] if team_sessions else 'None'}")
+                except Exception as e:
+                    logger.warning(f"Team Storage Check Error: {e}")
+                
+                # Check AGUI storage
+                try:
+                    agui_sessions = agui_team_storage.get_all_session_ids("TheBeardedMustache")
+                    logger.info(f"AGUI Storage ({agui_team_storage.mode} mode): {len(agui_sessions) if agui_sessions else 0} sessions")
+                    if agui_sessions:
+                        logger.info(f"  Latest session: {agui_sessions[-1] if agui_sessions else 'None'}")
+                except Exception as e:
+                    logger.warning(f"AGUI Storage Check Error: {e}")
+                
+                logger.info("=== End Session Monitor Report ===")
+                
+            except Exception as e:
+                logger.error(f"Session monitor error: {e}")
+                # Continue monitoring even if there's an error
+                time.sleep(30)
+    
+    # Start monitoring in a daemon thread
+    monitor_thread = threading.Thread(target=monitor_sessions, daemon=True)
+    monitor_thread.start()
+    logger.info("Session monitor started")
+    return monitor_thread
 
 def create_resilient_agent(
     name: str,
@@ -354,7 +436,8 @@ def create_resilient_agent(
         
         enhanced_tools.extend([
             human_approval_required, create_project_template, smart_code_review,
-            intelligent_documentation_generator, system_health_monitor, automated_testing_suite
+            intelligent_documentation_generator, system_health_monitor, automated_testing_suite,
+            debug_session_info, force_session_persistence, check_storage_health
         ])
         
         agent = Agent(
@@ -424,24 +507,58 @@ try:
         # Storage instances for different entities
         team_storage = PostgresStorage(
             table_name="unified_team_sessions", 
-            db_url=DB_URL
+            db_url=DB_URL,
+            mode="team",  # Explicitly set mode to "team"
+            auto_upgrade_schema=True  # Enable automatic schema upgrades
         )
         agent_storage = PostgresStorage(
             table_name="unified_agent_sessions", 
-            db_url=DB_URL
+            db_url=DB_URL,
+            mode="agent",  # Explicitly set mode to "agent"
+            auto_upgrade_schema=True  # Enable automatic schema upgrades
         )
         
         # AGUI-specific storage for compatibility
         agui_team_storage = PostgresStorage(
             table_name="agui_team_sessions", 
-            db_url=DB_URL
+            db_url=DB_URL,
+            mode="team",  # Explicitly set mode to "team"
+            auto_upgrade_schema=True  # Enable automatic schema upgrades
         )
         agui_agent_storage = PostgresStorage(
             table_name="agui_agent_sessions", 
-            db_url=DB_URL
+            db_url=DB_URL,
+            mode="agent",  # Explicitly set mode to "agent"
+            auto_upgrade_schema=True  # Enable automatic schema upgrades
         )
         
         logger.info("[OK] Memory and storage initialized with persistent tables")
+        
+        # Ensure all storage tables are created
+        try:
+            team_storage.create()
+            agent_storage.create()
+            agui_team_storage.create()
+            agui_agent_storage.create()
+            logger.info("[OK] All storage tables created successfully")
+        except Exception as e:
+            logger.warning(f"[WARNING] Some storage tables may already exist: {e}")
+        
+        # Run initial storage health check
+        try:
+            logger.info("Running initial storage health check...")
+            health_info = []
+            health_info.append(f"Team Storage: {team_storage.table_name} (mode: {team_storage.mode})")
+            health_info.append(f"Agent Storage: {agent_storage.table_name} (mode: {agent_storage.mode})")
+            health_info.append(f"AGUI Team Storage: {agui_team_storage.table_name} (mode: {agui_team_storage.mode})")
+            health_info.append(f"AGUI Agent Storage: {agui_agent_storage.table_name} (mode: {agui_agent_storage.mode})")
+            
+            for info in health_info:
+                logger.info(f"  - {info}")
+            
+            logger.info("[OK] Storage health check completed")
+        except Exception as e:
+            logger.warning(f"[WARNING] Storage health check failed: {e}")
         
     except Exception as e:
         logger.error(f"[ERROR] Failed to initialize memory/storage: {e}")
@@ -451,6 +568,406 @@ except Exception as e:
     logger.error(f"[ERROR] Failed to initialize Advanced Constructor Team: {e}")
     sys.exit(1)
 
+# PDF Processing Functions - Define before use
+@tool
+def convert_pdf_to_markdown(pdf_path: str, output_path: Optional[str] = None) -> str:
+    """Convert PDF file to Markdown format with enhanced text extraction
+    
+    Args:
+        pdf_path: Path to the PDF file
+        output_path: Optional output path for the markdown file
+    """
+    try:
+        if fitz is None:
+            return "Error: PyMuPDF not installed. Run: pip install PyMuPDF"
+            
+        import os
+        from pathlib import Path
+        
+        # Validate input file
+        if not os.path.exists(pdf_path):
+            return f"Error: PDF file not found at {pdf_path}"
+        
+        # Generate output path if not provided
+        if output_path is None:
+            pdf_name = Path(pdf_path).stem
+            output_path = f"library_KB/Knowledge/{pdf_name}.md"
+        
+        # Ensure output directory exists
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+        
+        # Extract text from PDF
+        markdown_content = []
+        doc = fitz.open(pdf_path)
+        
+        markdown_content.append(f"# {Path(pdf_path).stem}\n")
+        markdown_content.append(f"*Converted from PDF: {pdf_path}*\n")
+        markdown_content.append(f"*Conversion Date: {time.strftime('%Y-%m-%d %H:%M:%S')}*\n\n")
+        
+        for page_num in range(len(doc)):
+            page = doc.load_page(page_num)
+            try:
+                # Use getattr for safer attribute access
+                text_method = getattr(page, 'get_text', None) or getattr(page, 'getText', None)
+                text = text_method() if text_method else ""
+            except (AttributeError, Exception):
+                text = ""
+            
+            if text.strip():
+                markdown_content.append(f"## Page {page_num + 1}\n")
+                
+                # Clean up text formatting
+                text = re.sub(r'\n\s*\n', '\n\n', text)  # Remove excessive newlines
+                text = re.sub(r'([.!?])\s*\n\s*([A-Z])', r'\1 \2', text)  # Join sentences
+                text = re.sub(r'\s+', ' ', text)  # Clean up spacing
+                
+                markdown_content.append(text + "\n\n")
+        
+        doc.close()
+        
+        # Write to markdown file
+        with open(output_path, 'w', encoding='utf-8') as f:
+            f.write('\n'.join(markdown_content))
+        
+        logger.info(f"Successfully converted PDF to Markdown: {output_path}")
+        return f"Successfully converted PDF to Markdown: {output_path}"
+        
+    except ImportError:
+        return "Error: PyMuPDF (fitz) not installed. Run: pip install PyMuPDF"
+    except Exception as e:
+        logger.error(f"Error converting PDF to Markdown: {e}")
+        return f"Error converting PDF to Markdown: {str(e)}"
+
+@tool
+def batch_convert_pdfs_to_markdown(directory_path: str, output_directory: Optional[str] = None) -> str:
+    """Convert all PDF files in a directory to Markdown format
+    
+    Args:
+        directory_path: Path to directory containing PDF files
+        output_directory: Optional output directory for markdown files
+    """
+    try:
+        import os
+        from pathlib import Path
+        
+        if not os.path.exists(directory_path):
+            return f"Error: Directory not found at {directory_path}"
+        
+        if output_directory is None:
+            output_directory = "library_KB/Knowledge"
+        
+        # Find all PDF files
+        pdf_files = []
+        for root, dirs, files in os.walk(directory_path):
+            for file in files:
+                if file.lower().endswith('.pdf'):
+                    pdf_files.append(os.path.join(root, file))
+        
+        if not pdf_files:
+            return f"No PDF files found in {directory_path}"
+        
+        # Convert each PDF
+        results = []
+        for pdf_file in pdf_files:
+            pdf_name = Path(pdf_file).stem
+            output_path = os.path.join(output_directory, f"{pdf_name}.md")
+            
+            # Call the actual function implementation directly
+            try:
+                if fitz is None:
+                    result = "Error: PyMuPDF not installed"
+                else:
+                    # Direct PDF conversion logic
+                    doc = fitz.open(pdf_file)
+                    markdown_content = []
+                    markdown_content.append(f"# {pdf_name}\n")
+                    
+                    for page_num in range(len(doc)):
+                        page = doc.load_page(page_num)
+                        try:
+                            # Use getattr for safer attribute access
+                            text_method = getattr(page, 'get_text', None) or getattr(page, 'getText', None)
+                            text = text_method() if text_method else ""
+                        except (AttributeError, Exception):
+                            text = ""
+                        
+                        if text.strip():
+                            markdown_content.append(f"## Page {page_num + 1}\n")
+                            markdown_content.append(text + "\n\n")
+                    
+                    doc.close()
+                    
+                    # Write to file
+                    with open(output_path, 'w', encoding='utf-8') as f:
+                        f.write('\n'.join(markdown_content))
+                    
+                    result = f"Successfully converted to {output_path}"
+                    
+            except Exception as e:
+                result = f"Error: {str(e)}"
+                
+            results.append(f"• {pdf_name}: {result}")
+        
+        summary = f"Batch conversion completed. Processed {len(pdf_files)} PDF files:\n" + "\n".join(results)
+        logger.info(summary)
+        return summary
+        
+    except Exception as e:
+        logger.error(f"Error in batch PDF conversion: {e}")
+        return f"Error in batch PDF conversion: {str(e)}"
+
+@tool
+def extract_pdf_metadata(pdf_path: str) -> str:
+    """Extract metadata from PDF file
+    
+    Args:
+        pdf_path: Path to the PDF file
+    """
+    try:
+        if fitz is None:
+            return "Error: PyMuPDF not installed. Run: pip install PyMuPDF"
+            
+        import os
+        
+        if not os.path.exists(pdf_path):
+            return f"Error: PDF file not found at {pdf_path}"
+        
+        doc = fitz.open(pdf_path)
+        metadata = doc.metadata
+        
+        info = []
+        info.append(f"**PDF Metadata for: {os.path.basename(pdf_path)}**\n")
+        info.append(f"- **Title:** {metadata.get('title', 'N/A') if metadata else 'N/A'}")
+        info.append(f"- **Author:** {metadata.get('author', 'N/A') if metadata else 'N/A'}")
+        info.append(f"- **Subject:** {metadata.get('subject', 'N/A') if metadata else 'N/A'}")
+        info.append(f"- **Creator:** {metadata.get('creator', 'N/A') if metadata else 'N/A'}")
+        info.append(f"- **Producer:** {metadata.get('producer', 'N/A') if metadata else 'N/A'}")
+        info.append(f"- **Creation Date:** {metadata.get('creationDate', 'N/A') if metadata else 'N/A'}")
+        info.append(f"- **Modification Date:** {metadata.get('modDate', 'N/A') if metadata else 'N/A'}")
+        info.append(f"- **Page Count:** {len(doc)}")
+        info.append(f"- **File Size:** {os.path.getsize(pdf_path)} bytes")
+        
+        doc.close()
+        
+        result = "\n".join(info)
+        logger.info(f"Extracted metadata for {pdf_path}")
+        return result
+        
+    except Exception as e:
+        logger.error(f"Error extracting PDF metadata: {e}")
+        return f"Error extracting PDF metadata: {str(e)}"
+
+@tool
+def organize_knowledge_base(base_path: str = "library_KB") -> str:
+    """Organize knowledge base files by type and create index
+    
+    Args:
+        base_path: Base path for the knowledge base
+    """
+    try:
+        import os
+        from pathlib import Path
+        
+        # Create directory structure
+        directories = [
+            "Knowledge/PDFs_Converted",
+            "Knowledge/Research_Papers",
+            "Knowledge/Documentation",
+            "Knowledge/References",
+            "RandD/PDF_Sources",
+            "RandD/Research_Reports"
+        ]
+        
+        for directory in directories:
+            os.makedirs(os.path.join(base_path, directory), exist_ok=True)
+        
+        # Create index file
+        index_content = []
+        index_content.append("# Knowledge Base Index\n")
+        index_content.append(f"*Generated: {time.strftime('%Y-%m-%d %H:%M:%S')}*\n")
+        
+        # Scan for files
+        for root, dirs, files in os.walk(base_path):
+            if files:
+                relative_path = os.path.relpath(root, base_path)
+                index_content.append(f"## {relative_path}\n")
+                
+                for file in sorted(files):
+                    if file.endswith(('.md', '.pdf', '.txt')):
+                        index_content.append(f"- [{file}]({os.path.join(relative_path, file)})")
+                
+                index_content.append("")
+        
+        # Write index
+        index_path = os.path.join(base_path, "INDEX.md")
+        with open(index_path, 'w', encoding='utf-8') as f:
+            f.write('\n'.join(index_content))
+        
+        logger.info(f"Knowledge base organized and index created at {index_path}")
+        return f"Knowledge base organized successfully. Index created at {index_path}"
+        
+    except Exception as e:
+        logger.error(f"Error organizing knowledge base: {e}")
+        return f"Error organizing knowledge base: {str(e)}"
+
+# Add session monitoring and debugging tools
+@tool
+def debug_session_info(user_id: str = "TheBeardedMustache") -> str:
+    """Debug session information and storage state"""
+    try:
+        info = []
+        info.append(f"=== Session Debug Info for User: {user_id} ===")
+        
+        # Check team storage
+        try:
+            team_sessions = team_storage.get_all_session_ids(user_id)
+            info.append(f"Team Storage Sessions: {len(team_sessions) if team_sessions else 0}")
+            if team_sessions:
+                for i, session in enumerate(team_sessions):
+                    info.append(f"  {i+1}. {session}")
+        except Exception as e:
+            info.append(f"Team Storage Error: {e}")
+        
+        # Check AGUI team storage
+        try:
+            agui_sessions = agui_team_storage.get_all_session_ids(user_id)
+            info.append(f"AGUI Storage Sessions: {len(agui_sessions) if agui_sessions else 0}")
+            if agui_sessions:
+                for i, session in enumerate(agui_sessions):
+                    info.append(f"  {i+1}. {session}")
+        except Exception as e:
+            info.append(f"AGUI Storage Error: {e}")
+        
+        # Check memory state
+        try:
+            # Try to get memory information
+            info.append(f"Memory Instance: {type(memory).__name__}")
+            info.append(f"Memory DB: {type(memory.db).__name__}")
+        except Exception as e:
+            info.append(f"Memory Error: {e}")
+        
+        result = "\n".join(info)
+        logger.info(result)
+        return result
+        
+    except Exception as e:
+        error_msg = f"Error debugging session info: {e}"
+        logger.error(error_msg)
+        return error_msg
+
+@tool
+def force_session_persistence(user_id: str = "TheBeardedMustache", session_id: Optional[str] = None) -> str:
+    """Force session persistence by creating a test entry"""
+    try:
+        if session_id is None:
+            session_id = get_or_create_session(user_id)
+        
+        # Try to create a test entry in storage
+        test_data = {
+            "user_id": user_id,
+            "session_id": session_id,
+            "timestamp": time.time(),
+            "test_data": "Session persistence test"
+        }
+        
+        # Store in both storages using correct Agno storage API
+        try:
+            # Create a proper session object for team storage
+            from agno.storage.session.team import TeamSession
+            team_session = TeamSession(
+                session_id=session_id,
+                user_id=user_id,
+                team_id="advanced_constructor_team",  # Add required team_id
+                team_data=test_data,
+                session_data=test_data,
+                extra_data=test_data
+            )
+            team_storage.upsert(team_session)
+            logger.info(f"Test data stored in team storage for session: {session_id}")
+        except Exception as e:
+            logger.error(f"Failed to store in team storage: {e}")
+        
+        try:
+            # Create a proper session object for AGUI storage  
+            from agno.storage.session.team import TeamSession
+            agui_session = TeamSession(
+                session_id=session_id,
+                user_id=user_id,
+                team_id="advanced_constructor_team",  # Add required team_id
+                team_data=test_data,
+                session_data=test_data,
+                extra_data=test_data
+            )
+            agui_team_storage.upsert(agui_session)
+            logger.info(f"Test data stored in AGUI storage for session: {session_id}")
+        except Exception as e:
+            logger.error(f"Failed to store in AGUI storage: {e}")
+        
+        return f"Session persistence test completed for session: {session_id}"
+        
+    except Exception as e:
+        error_msg = f"Error forcing session persistence: {e}"
+        logger.error(error_msg)
+        return error_msg
+
+@tool
+def check_storage_health() -> str:
+    """Check storage health and table schemas"""
+    try:
+        info = []
+        info.append("=== Storage Health Check ===")
+        
+        # Check team storage
+        try:
+            if team_storage.table_exists():
+                info.append(f"✅ Team Storage Table: {team_storage.table_name} (mode: {team_storage.mode})")
+            else:
+                info.append(f"❌ Team Storage Table: {team_storage.table_name} - Table missing")
+                team_storage.create()
+                info.append(f"✅ Created team storage table")
+        except Exception as e:
+            info.append(f"❌ Team Storage Error: {e}")
+        
+        # Check agent storage
+        try:
+            if agent_storage.table_exists():
+                info.append(f"✅ Agent Storage Table: {agent_storage.table_name} (mode: {agent_storage.mode})")
+            else:
+                info.append(f"❌ Agent Storage Table: {agent_storage.table_name} - Table missing")
+                agent_storage.create()
+                info.append(f"✅ Created agent storage table")
+        except Exception as e:
+            info.append(f"❌ Agent Storage Error: {e}")
+        
+        # Check AGUI storages
+        try:
+            if agui_team_storage.table_exists():
+                info.append(f"✅ AGUI Team Storage Table: {agui_team_storage.table_name} (mode: {agui_team_storage.mode})")
+            else:
+                info.append(f"❌ AGUI Team Storage Table: {agui_team_storage.table_name} - Table missing")
+                agui_team_storage.create()
+                info.append(f"✅ Created AGUI team storage table")
+        except Exception as e:
+            info.append(f"❌ AGUI Team Storage Error: {e}")
+        
+        try:
+            if agui_agent_storage.table_exists():
+                info.append(f"✅ AGUI Agent Storage Table: {agui_agent_storage.table_name} (mode: {agui_agent_storage.mode})")
+            else:
+                info.append(f"❌ AGUI Agent Storage Table: {agui_agent_storage.table_name} - Table missing")
+                agui_agent_storage.create()
+                info.append(f"✅ Created AGUI agent storage table")
+        except Exception as e:
+            info.append(f"❌ AGUI Agent Storage Error: {e}")
+        
+        result = "\n".join(info)
+        logger.info(result)
+        return result
+        
+    except Exception as e:
+        error_msg = f"Error checking storage health: {e}"
+        logger.error(error_msg)
+        return error_msg
 # Create resilient agents with error handling and session persistence
 try:
     # Get or create session for this application run
@@ -809,6 +1326,8 @@ try:
         mode="coordinate",
         model=OpenAIChat(id="gpt-4o"),
         members=[code_architect, code_implementer, devops_agent, deep_researcher],
+        user_id="TheBeardedMustache",
+        session_id=team_session_id,  # Use the same session ID for consistency
         instructions=[
             "You are the Advanced Constructor Team managing specialized AI agents for complex technical projects.",
             "Coordinate between team members to achieve technical objectives effectively.",
@@ -865,6 +1384,10 @@ try:
     agui_fastapi_app = agui_app.get_app()
     
     logger.info("[OK] Both Playground and AGUI apps created successfully")
+    
+    # Start session monitoring
+    session_monitor_thread = start_session_monitor()
+    logger.info("[OK] Session monitoring started")
 
 except Exception as e:
     logger.error(f"[ERROR] Failed to create apps: {e}")
@@ -932,202 +1455,3 @@ if __name__ == "__main__":
     except Exception as e:
         logger.error(f"Failed to start server: {e}")
         sys.exit(1)
-
-@tool
-def convert_pdf_to_markdown(pdf_path: str, output_path: Optional[str] = None) -> str:
-    """Convert PDF file to Markdown format with enhanced text extraction
-    
-    Args:
-        pdf_path: Path to the PDF file
-        output_path: Optional output path for the markdown file
-    """
-    try:
-        import fitz  # PyMuPDF
-        import os
-        from pathlib import Path
-        
-        # Validate input file
-        if not os.path.exists(pdf_path):
-            return f"Error: PDF file not found at {pdf_path}"
-        
-        # Generate output path if not provided
-        if output_path is None:
-            pdf_name = Path(pdf_path).stem
-            output_path = f"library_KB/Knowledge/{pdf_name}.md"
-        
-        # Ensure output directory exists
-        os.makedirs(os.path.dirname(output_path), exist_ok=True)
-        
-        # Extract text from PDF
-        markdown_content = []
-        doc = fitz.open(pdf_path)
-        
-        markdown_content.append(f"# {Path(pdf_path).stem}\n")
-        markdown_content.append(f"*Converted from PDF: {pdf_path}*\n")
-        markdown_content.append(f"*Conversion Date: {time.strftime('%Y-%m-%d %H:%M:%S')}*\n\n")
-        
-        for page_num in range(len(doc)):
-            page = doc.load_page(page_num)
-            text = page.get_text()
-            
-            if text.strip():
-                markdown_content.append(f"## Page {page_num + 1}\n")
-                
-                # Clean up text formatting
-                text = re.sub(r'\n\s*\n', '\n\n', text)  # Remove excessive newlines
-                text = re.sub(r'([.!?])\s*\n\s*([A-Z])', r'\1 \2', text)  # Join sentences
-                text = re.sub(r'\s+', ' ', text)  # Clean up spacing
-                
-                markdown_content.append(text + "\n\n")
-        
-        doc.close()
-        
-        # Write to markdown file
-        with open(output_path, 'w', encoding='utf-8') as f:
-            f.write('\n'.join(markdown_content))
-        
-        logger.info(f"Successfully converted PDF to Markdown: {output_path}")
-        return f"Successfully converted PDF to Markdown: {output_path}"
-        
-    except ImportError:
-        return "Error: PyMuPDF (fitz) not installed. Run: pip install PyMuPDF"
-    except Exception as e:
-        logger.error(f"Error converting PDF to Markdown: {e}")
-        return f"Error converting PDF to Markdown: {str(e)}"
-
-@tool
-def batch_convert_pdfs_to_markdown(directory_path: str, output_directory: Optional[str] = None) -> str:
-    """Convert all PDF files in a directory to Markdown format
-    
-    Args:
-        directory_path: Path to directory containing PDF files
-        output_directory: Optional output directory for markdown files
-    """
-    try:
-        import os
-        from pathlib import Path
-        
-        if not os.path.exists(directory_path):
-            return f"Error: Directory not found at {directory_path}"
-        
-        if output_directory is None:
-            output_directory = "library_KB/Knowledge"
-        
-        # Find all PDF files
-        pdf_files = []
-        for root, dirs, files in os.walk(directory_path):
-            for file in files:
-                if file.lower().endswith('.pdf'):
-                    pdf_files.append(os.path.join(root, file))
-        
-        if not pdf_files:
-            return f"No PDF files found in {directory_path}"
-        
-        # Convert each PDF
-        results = []
-        for pdf_file in pdf_files:
-            pdf_name = Path(pdf_file).stem
-            output_path = os.path.join(output_directory, f"{pdf_name}.md")
-            
-            result = convert_pdf_to_markdown(pdf_file, output_path)
-            results.append(f"• {pdf_name}: {result}")
-        
-        summary = f"Batch conversion completed. Processed {len(pdf_files)} PDF files:\n" + "\n".join(results)
-        logger.info(summary)
-        return summary
-        
-    except Exception as e:
-        logger.error(f"Error in batch PDF conversion: {e}")
-        return f"Error in batch PDF conversion: {str(e)}"
-
-@tool
-def extract_pdf_metadata(pdf_path: str) -> str:
-    """Extract metadata from PDF file
-    
-    Args:
-        pdf_path: Path to the PDF file
-    """
-    try:
-        import fitz
-        import os
-        
-        if not os.path.exists(pdf_path):
-            return f"Error: PDF file not found at {pdf_path}"
-        
-        doc = fitz.open(pdf_path)
-        metadata = doc.metadata
-        
-        info = []
-        info.append(f"**PDF Metadata for: {os.path.basename(pdf_path)}**\n")
-        info.append(f"- **Title:** {metadata.get('title', 'N/A')}")
-        info.append(f"- **Author:** {metadata.get('author', 'N/A')}")
-        info.append(f"- **Subject:** {metadata.get('subject', 'N/A')}")
-        info.append(f"- **Creator:** {metadata.get('creator', 'N/A')}")
-        info.append(f"- **Producer:** {metadata.get('producer', 'N/A')}")
-        info.append(f"- **Creation Date:** {metadata.get('creationDate', 'N/A')}")
-        info.append(f"- **Modification Date:** {metadata.get('modDate', 'N/A')}")
-        info.append(f"- **Page Count:** {len(doc)}")
-        info.append(f"- **File Size:** {os.path.getsize(pdf_path)} bytes")
-        
-        doc.close()
-        
-        result = "\n".join(info)
-        logger.info(f"Extracted metadata for {pdf_path}")
-        return result
-        
-    except Exception as e:
-        logger.error(f"Error extracting PDF metadata: {e}")
-        return f"Error extracting PDF metadata: {str(e)}"
-
-@tool
-def organize_knowledge_base(base_path: str = "library_KB") -> str:
-    """Organize knowledge base files by type and create index
-    
-    Args:
-        base_path: Base path for the knowledge base
-    """
-    try:
-        import os
-        from pathlib import Path
-        
-        # Create directory structure
-        directories = [
-            "Knowledge/PDFs_Converted",
-            "Knowledge/Research_Papers",
-            "Knowledge/Documentation",
-            "Knowledge/References",
-            "RandD/PDF_Sources",
-            "RandD/Research_Reports"
-        ]
-        
-        for directory in directories:
-            os.makedirs(os.path.join(base_path, directory), exist_ok=True)
-        
-        # Create index file
-        index_content = []
-        index_content.append("# Knowledge Base Index\n")
-        index_content.append(f"*Generated: {time.strftime('%Y-%m-%d %H:%M:%S')}*\n")
-        
-        # Scan for files
-        for root, dirs, files in os.walk(base_path):
-            if files:
-                relative_path = os.path.relpath(root, base_path)
-                index_content.append(f"## {relative_path}\n")
-                
-                for file in sorted(files):
-                    if file.endswith(('.md', '.pdf', '.txt')):
-                        index_content.append(f"- [{file}]({os.path.join(relative_path, file)})")
-                
-                index_content.append("")
-        
-        # Write index
-        index_path = os.path.join(base_path, "INDEX.md")
-        with open(index_path, 'w', encoding='utf-8') as f:
-            f.write('\n'.join(index_content))
-        
-        logger.info(f"Knowledge base organized and index created at {index_path}")
-        return f"Knowledge base organized successfully. Index created at {index_path}"
-        
-    except Exception as e:
-        logger.error(f"Error organizing knowledge base: {e}")
-        return f"Error organizing knowledge base: {str(e)}"

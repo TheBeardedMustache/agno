@@ -1,3 +1,0 @@
-# SIL API Reference
-
-::: sil
