@@ -1,0 +1,133 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      - name: Install deps
+        run: |
+          pip install pip-tools
+          pip-sync requirements/dev.txt
+      - name: Run linters
+        run: |
+          black --check .
+          flake8 .
+          bandit -r src --severity-level HIGH
+          semgrep --config=p/ci --error
+
+  tests:
+    name: Tests
+    needs: lint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+      - name: Install deps
+        run: |
+          pip install pip-tools
+          pip-sync requirements/dev.txt
+      - name: Pytest
+        run: pytest -q --cov
+
+  mutation:
+    name: MutPy
+    needs: tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      - name: Install deps
+        run: |
+          pip install pip-tools mutpy
+          pip-sync requirements/dev.txt
+      - name: Patch MutPy
+        run: |
+          sed -i "s/find_loader('pytest')/util.find_spec('pytest')/" $(python - <<'EOFP'
+import mutpy, os
+print(os.path.join(os.path.dirname(mutpy.__file__), 'test_runners', '__init__.py'))
+EOFP
+)
+      - name: Run MutPy
+        run: |
+          mut.py --target src.ttt --unit-test tests.test_frame_basic --runner pytest --path . --timeout-factor 1 > mutpy.log
+          cat mutpy.log
+          SCORE=$(grep -oP 'Mutation score \[.*\]: \K[0-9.]+' mutpy.log)
+          echo "SCORE=$SCORE" >> $GITHUB_ENV
+      - name: Check mutation score
+        run: |
+          python - <<'EOFP'
+import os, sys
+score=float(os.environ["SCORE"])
+print('Mutation score:', score)
+sys.exit(0 if score >= 95 else 1)
+EOFP
+
+  docs:
+    name: Docs
+    needs: tests
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install system packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y liboqs-dev cmake ninja-build swig libssl-dev
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      - name: Install deps
+        run: |
+          pip install pip-tools
+          pip-sync requirements/docs.txt
+      - name: Build docs
+        run: mkdocs build --strict
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+
+  publish:
+    name: Publish
+    needs: mutation
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || startsWith(github.ref, 'refs/tags/v2.1.0')
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      - name: Install poetry
+        run: pip install poetry
+      - name: Build wheel
+        run: poetry build -f wheel
+      - name: Publish to TestPyPI
+        if: github.event_name == 'pull_request'
+        run: poetry publish -r testpypi -u __token__ -p ${{ secrets.TEST_PYPI_TOKEN }}
+      - name: Publish to PyPI
+        if: startsWith(github.ref, 'refs/tags/v2.1.0')
+        run: poetry publish -r pypi -u __token__ -p ${{ secrets.PYPI_TOKEN }}

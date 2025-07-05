@@ -1,0 +1,28 @@
+agno
+openai
+psycopg2-binary
+sqlalchemy
+redis
+fastapi
+uvicorn
+python-dotenv
+# Additional tools for agents
+agno[github]
+agno[googlesearch]
+e2b_code_interpreter
+google-search-results
+googlesearch-python
+PyGithub
+
+# PDF Processing
+PyMuPDF>=1.23.0
+PyPDF2>=3.0.0
+pdfplumber>=0.10.0
+
+# Markdown processing
+markdown>=3.5.0
+markdown-extensions>=0.1.0
+
+# Additional text processing
+python-docx>=0.8.11
+beautifulsoup4>=4.12.0

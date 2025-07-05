@@ -1,0 +1,79 @@
+services:
+  postgres:
+    image: agnohq/pgvector:16
+    container_name: agno-postgres
+    environment:
+      POSTGRES_DB: ai
+      POSTGRES_USER: ai
+      POSTGRES_PASSWORD: ai
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - agno_pgdata:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    ports:
+      - "5532:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ai -d ai"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - agno-network
+
+  redis:
+    image: redis:latest
+    container_name: agno-redis
+    volumes:
+      - agno_redis_data:/data
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    command: redis-server --appendonly yes --appendfsync everysec
+    networks:
+      - agno-network
+
+  agno-app:
+    build: .
+    container_name: agno-app
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - AGNO_API_KEY=${AGNO_API_KEY}
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=ai
+      - DB_PASSWORD=ai
+      - DB_DATABASE=ai
+      - REDIS_URL=redis://redis:6379
+      - AGNO_MONITOR=true
+      - FRONTEND_URL=https://app.agno.com
+      - MONITORING_ENABLED=true
+      - DEBUG_MODE=true
+    volumes:
+      - agno_app_data:/app/data
+      - agno_logs:/app/logs
+      - ./library_KB:/app/library_KB
+    ports:
+      - "7777:7777"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    restart: unless-stopped
+    networks:
+      - agno-network
+
+volumes:
+  agno_pgdata:
+    driver: local
+  agno_redis_data:
+    driver: local
+  agno_app_data:
+    driver: local
+  agno_logs:
+    driver: local
+
+networks:
+  agno-network:
+    driver: bridge

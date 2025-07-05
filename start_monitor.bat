@@ -1,0 +1,3 @@
+@echo off
+echo Starting Advanced Constructor Team Monitor...
+streamlit run monitoring_dashboard.py --server.port 8501
