@@ -1,0 +1,16 @@
+[tool.black]
+line-length = 88
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203"]
+
+[tool.poetry]
+version = "1.0.0"
+
+[project]
+name = "soul-language"
+version = "1.0.0"
+
+[project.scripts]
+sqly = "sqly.repl:main"

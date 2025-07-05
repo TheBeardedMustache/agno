@@ -1,0 +1,8 @@
+[run]
+omit =
+    src/frame.py
+    src/sqly/cli.py
+    src/extension7.py
+    src/ntru.py
+    src/sil/frame.py
+    tests/*
